@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>AI Scam Job Detection — Login</title>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet"/>
+<style>
+*{margin:0;padding:0;box-sizing:border-box;}
+body{
+  font-family:'Plus Jakarta Sans',sans-serif;
+  min-height:100vh;background:#09090F;
+  display:flex;align-items:center;justify-content:center;
+  position:relative;overflow:hidden;
+}
+.orb{position:absolute;border-radius:50%;filter:blur(90px);pointer-events:none;}
+.o1{width:520px;height:520px;background:rgba(99,69,255,0.22);top:-120px;left:-120px;animation:fl 9s ease-in-out infinite;}
+.o2{width:420px;height:420px;background:rgba(236,72,153,0.13);bottom:-80px;right:-80px;animation:fl 7s ease-in-out infinite 3s;}
+.o3{width:320px;height:320px;background:rgba(59,130,246,0.1);top:50%;left:50%;transform:translate(-50%,-50%);animation:fl 11s ease-in-out infinite 1.5s;}
+@keyframes fl{0%,100%{transform:translateY(0) scale(1);}50%{transform:translateY(-28px) scale(1.04);}}
+body::before{
+  content:'';position:fixed;inset:0;
+  background-image:linear-gradient(rgba(255,255,255,0.025) 1px,transparent 1px),
+    linear-gradient(90deg,rgba(255,255,255,0.025) 1px,transparent 1px);
+  background-size:48px 48px;pointer-events:none;
+}
+.card{
+  position:relative;z-index:10;width:460px;
+  background:rgba(255,255,255,0.04);
+  border:1px solid rgba(255,255,255,0.09);
+  border-radius:24px;padding:46px 42px;
+  backdrop-filter:blur(20px);
+  box-shadow:0 32px 80px rgba(0,0,0,0.5),inset 0 1px 0 rgba(255,255,255,0.08);
+}
+.logo{display:flex;align-items:center;gap:12px;margin-bottom:32px;}
+.logo-icon{
+  width:48px;height:48px;
+  background:linear-gradient(135deg,#6345FF,#a855f7);
+  border-radius:14px;display:flex;align-items:center;justify-content:center;
+  font-size:22px;box-shadow:0 8px 24px rgba(99,69,255,0.4);
+}
+.logo-name{font-size:19px;font-weight:800;color:#fff;line-height:1.1;}
+.logo-sub{font-size:10px;color:rgba(255,255,255,0.4);letter-spacing:0.08em;text-transform:uppercase;}
+.tabs{
+  display:flex;background:rgba(255,255,255,0.06);
+  border-radius:12px;padding:4px;margin-bottom:28px;gap:4px;
+}
+.tab{
+  flex:1;padding:9px 0;background:transparent;border:none;
+  color:rgba(255,255,255,0.4);font-family:inherit;font-size:14px;font-weight:600;
+  border-radius:9px;cursor:pointer;transition:all 0.2s;
+}
+.tab.on{background:#6345FF;color:#fff;box-shadow:0 2px 12px rgba(99,69,255,0.5);}
+h2{font-size:24px;font-weight:800;color:#fff;margin-bottom:5px;}
+.sub{font-size:13px;color:rgba(255,255,255,0.4);margin-bottom:26px;line-height:1.5;}
+.field{margin-bottom:16px;}
+.field label{display:block;font-size:11px;font-weight:700;color:rgba(255,255,255,0.55);margin-bottom:7px;letter-spacing:0.07em;text-transform:uppercase;}
+.field input,.field select{
+  width:100%;padding:13px 16px;
+  background:rgba(255,255,255,0.07);
+  border:1.5px solid rgba(255,255,255,0.1);
+  border-radius:12px;color:#fff;
+  font-family:inherit;font-size:14px;outline:none;transition:all 0.2s;
+}
+.field input::placeholder{color:rgba(255,255,255,0.22);}
+.field input:focus,.field select:focus{
+  border-color:#6345FF;
+  background:rgba(99,69,255,0.12);
+  box-shadow:0 0 0 3px rgba(99,69,255,0.2);
+}
+.field select{cursor:pointer;}
+.field select option{background:#1a1a2e;color:#fff;}
+.two{display:grid;grid-template-columns:1fr 1fr;gap:12px;}
+.err-box{
+  background:rgba(239,68,68,0.13);
+  border:1px solid rgba(239,68,68,0.3);
+  border-radius:10px;padding:11px 14px;
+  font-size:13px;color:#fca5a5;font-weight:500;
+  margin-bottom:14px;display:none;
+}
+.submit-btn{
+  width:100%;padding:14px;
+  background:linear-gradient(135deg,#6345FF,#a855f7);
+  border:none;border-radius:12px;color:#fff;
+  font-family:inherit;font-size:15px;font-weight:700;
+  cursor:pointer;transition:all 0.2s;
+  box-shadow:0 4px 20px rgba(99,69,255,0.4);margin-top:4px;
+}
+.submit-btn:hover{transform:translateY(-2px);box-shadow:0 8px 28px rgba(99,69,255,0.55);}
+.submit-btn:disabled{opacity:0.6;transform:none;cursor:not-allowed;}
+.reg-panel{display:none;}
+</style>
+</head>
+<body>
+<div class="orb o1"></div>
+<div class="orb o2"></div>
+<div class="orb o3"></div>
+
+<div class="card">
+  <div class="logo">
+    <div class="logo-icon">🛡️</div>
+    <div>
+      <div class="logo-name">AI Scam Detector</div>
+      <div class="logo-sub">Job Fraud Detection System</div>
+    </div>
+  </div>
+
+  <div class="tabs">
+    <button class="tab on" id="tLogin" onclick="switchTab('login')">Sign In</button>
+    <button class="tab"    id="tReg"   onclick="switchTab('reg')">Create Account</button>
+  </div>
+
+  <div class="err-box" id="errBox"></div>
+
+  <!-- LOGIN -->
+  <div id="loginPanel">
+    <h2>Welcome back 👋</h2>
+    <p class="sub">Sign in to detect scam job postings instantly.</p>
+    <div class="field">
+      <label>Email Address</label>
+      <input type="email" id="lEmail" placeholder="you@example.com"/>
+    </div>
+    <div class="field">
+      <label>Password</label>
+      <input type="password" id="lPass" placeholder="Enter your password"
+             onkeydown="if(event.key==='Enter')doLogin()"/>
+    </div>
+    <button class="submit-btn" id="loginBtn" onclick="doLogin()">Sign In →</button>
+  </div>
+
+  <!-- REGISTER -->
+  <div id="regPanel" class="reg-panel">
+    <h2>Create account 🚀</h2>
+    <p class="sub">Register to start detecting job scams instantly.</p>
+    <div class="two">
+      <div class="field">
+        <label>First Name</label>
+        <input type="text" id="rFirst" placeholder="Rohit"/>
+      </div>
+      <div class="field">
+        <label>Last Name</label>
+        <input type="text" id="rLast" placeholder="Sharma"/>
+      </div>
+    </div>
+    <div class="field">
+      <label>Email Address</label>
+      <input type="email" id="rEmail" placeholder="you@example.com"/>
+    </div>
+    <div class="field">
+      <label>Password</label>
+      <input type="password" id="rPass" placeholder="Minimum 6 characters"/>
+    </div>
+    <div class="field">
+      <label>I am a</label>
+      <select id="rRole">
+        <option>Job Seeker</option>
+        <option>Recruiter</option>
+        <option>HR Manager</option>
+        <option>Company Admin</option>
+      </select>
+    </div>
+    <button class="submit-btn" id="regBtn" onclick="doRegister()">Create Account →</button>
+  </div>
+</div>
+
+<script>
+function switchTab(t){
+  document.getElementById('loginPanel').style.display = t==='login'?'block':'none';
+  document.getElementById('regPanel').style.display   = t==='reg'  ?'block':'none';
+  document.getElementById('tLogin').className = 'tab'+(t==='login'?' on':'');
+  document.getElementById('tReg').className   = 'tab'+(t==='reg'  ?' on':'');
+  hideErr();
+}
+function showErr(msg){ var e=document.getElementById('errBox'); e.textContent=msg; e.style.display='block'; }
+function hideErr(){ document.getElementById('errBox').style.display='none'; }
+
+function setLoading(btnId, loading){
+  var b=document.getElementById(btnId);
+  b.disabled=loading;
+  b.textContent=loading?'Please wait...': (btnId==='loginBtn'?'Sign In →':'Create Account →');
+}
+
+async function doLogin(){
+  hideErr();
+  var email = document.getElementById('lEmail').value.trim();
+  var pass  = document.getElementById('lPass').value.trim();
+  if(!email){ showErr('Please enter your email address.'); return; }
+  if(!pass) { showErr('Please enter your password.'); return; }
+  setLoading('loginBtn', true);
+  try {
+    var r = await fetch('/api/login', {
+      method:'POST',
+      headers:{'Content-Type':'application/json'},
+      body: JSON.stringify({email:email, password:pass})
+    });
+    var d = await r.json();
+    if(d.ok){ window.location.href='/dashboard'; }
+    else    { showErr(d.error); }
+  } catch(e){ showErr('Server error. Make sure Flask is running.'); }
+  setLoading('loginBtn', false);
+}
+
+async function doRegister(){
+  hideErr();
+  var first = document.getElementById('rFirst').value.trim();
+  var last  = document.getElementById('rLast').value.trim();
+  var email = document.getElementById('rEmail').value.trim();
+  var pass  = document.getElementById('rPass').value.trim();
+  var role  = document.getElementById('rRole').value;
+  if(!first)            { showErr('Please enter your first name.'); return; }
+  if(!email)            { showErr('Please enter your email address.'); return; }
+  if(pass.length < 6)   { showErr('Password must be at least 6 characters.'); return; }
+  setLoading('regBtn', true);
+  try {
+    var r = await fetch('/api/register', {
+      method:'POST',
+      headers:{'Content-Type':'application/json'},
+      body: JSON.stringify({name: first+(last?' '+last:''), email:email, password:pass, role:role})
+    });
+    var d = await r.json();
+    if(d.ok){ window.location.href='/dashboard'; }
+    else    { showErr(d.error); }
+  } catch(e){ showErr('Server error. Make sure Flask is running.'); }
+  setLoading('regBtn', false);
+}
+</script>
+</body>
+</html>

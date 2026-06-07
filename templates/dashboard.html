@@ -1,0 +1,1044 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>AI Scam Job Detection — Dashboard</title>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet"/>
+<style>
+*{margin:0;padding:0;box-sizing:border-box;}
+:root{
+  --p:#6345FF;--p2:#a855f7;--pbg:#F0EDFF;
+  --red:#EF4444;--redbg:#FEF2F2;
+  --amber:#F59E0B;--amberbg:#FFFBEB;
+  --green:#10B981;--greenbg:#ECFDF5;
+  --blue:#3B82F6;--bluebg:#EFF6FF;
+  --bg:#F4F2FA;--w:#fff;
+  --bd:#E5E0F5;--text:#160D35;--t2:#6B7280;--t3:#9CA3AF;
+  --sw:220px;
+  --fn:'Plus Jakarta Sans',sans-serif;
+  --r:14px;
+  --sh:0 2px 8px rgba(99,69,255,0.08),0 1px 3px rgba(0,0,0,0.04);
+}
+body{font-family:var(--fn);background:var(--bg);color:var(--text);font-size:14px;}
+.layout{display:flex;min-height:100vh;}
+
+/* SIDEBAR */
+.sidebar{
+  width:var(--sw);background:var(--w);border-right:1px solid var(--bd);
+  display:flex;flex-direction:column;
+  position:fixed;top:0;left:0;bottom:0;z-index:200;overflow-y:auto;
+}
+.sb-logo{padding:18px 16px 14px;border-bottom:1px solid var(--bd);display:flex;align-items:center;gap:10px;}
+.sb-logo-icon{
+  width:38px;height:38px;
+  background:linear-gradient(135deg,var(--p),var(--p2));
+  border-radius:11px;display:flex;align-items:center;justify-content:center;
+  font-size:18px;box-shadow:0 4px 12px rgba(99,69,255,0.3);flex-shrink:0;
+}
+.sb-logo-name{font-size:15px;font-weight:800;color:var(--text);line-height:1.1;}
+.sb-logo-sub{font-size:10px;color:var(--t3);letter-spacing:0.06em;text-transform:uppercase;}
+.sb-nav{flex:1;padding:12px 10px;display:flex;flex-direction:column;gap:2px;}
+.sb-sec{font-size:10px;font-weight:700;color:var(--t3);letter-spacing:0.1em;text-transform:uppercase;padding:10px 8px 4px;}
+.sb-item{
+  display:flex;align-items:center;gap:10px;
+  padding:9px 10px;border-radius:10px;
+  color:var(--t2);font-size:13px;font-weight:600;
+  cursor:pointer;transition:all 0.15s;border:1px solid transparent;
+}
+.sb-item:hover{background:var(--pbg);color:var(--p);}
+.sb-item.on{background:var(--pbg);color:var(--p);border-color:rgba(99,69,255,0.15);}
+.sb-item .ico{font-size:16px;flex-shrink:0;}
+.sb-item .bdg{
+  margin-left:auto;padding:2px 7px;border-radius:20px;
+  font-size:10px;font-weight:700;background:var(--red);color:#fff;
+}
+.sb-item .bdg.p{background:var(--p);}
+
+.ai-card{
+  margin:10px;border-radius:14px;
+  background:linear-gradient(135deg,var(--p),#4c1d95);
+  padding:16px;color:#fff;position:relative;overflow:hidden;
+}
+.ai-card::after{content:'🛡️';position:absolute;right:-6px;bottom:-10px;font-size:56px;opacity:0.12;}
+.ai-card h4{font-size:13px;font-weight:800;margin-bottom:5px;}
+.ai-card p{font-size:11px;opacity:0.8;line-height:1.5;margin-bottom:12px;}
+.ai-card button{
+  background:rgba(255,255,255,0.18);border:1px solid rgba(255,255,255,0.3);
+  color:#fff;font-family:var(--fn);font-size:12px;font-weight:700;
+  padding:6px 14px;border-radius:8px;cursor:pointer;transition:all 0.2s;
+}
+.ai-card button:hover{background:rgba(255,255,255,0.28);}
+
+.sb-user{
+  padding:12px 14px;border-top:1px solid var(--bd);
+  display:flex;align-items:center;gap:10px;
+}
+.sb-av{
+  width:34px;height:34px;border-radius:50%;
+  background:var(--p);color:#fff;
+  display:flex;align-items:center;justify-content:center;
+  font-size:14px;font-weight:800;flex-shrink:0;
+}
+.sb-uname{font-size:13px;font-weight:700;color:var(--text);}
+.sb-urole{font-size:11px;color:var(--t2);}
+.logout-btn{
+  margin-left:auto;background:none;border:none;
+  color:var(--t3);cursor:pointer;font-size:18px;
+  padding:4px 6px;border-radius:7px;transition:all 0.2s;
+}
+.logout-btn:hover{background:var(--redbg);color:var(--red);}
+
+/* MAIN */
+.main{margin-left:var(--sw);flex:1;display:flex;flex-direction:column;}
+
+/* TOPBAR */
+.topbar{
+  background:var(--w);border-bottom:1px solid var(--bd);
+  height:60px;padding:0 26px;
+  display:flex;align-items:center;gap:14px;
+  position:sticky;top:0;z-index:100;
+}
+.search-wrap{
+  flex:1;max-width:380px;
+  display:flex;align-items:center;gap:10px;
+  background:var(--bg);border:1px solid var(--bd);
+  border-radius:10px;padding:8px 14px;
+}
+.search-wrap input{
+  flex:1;border:none;background:transparent;
+  font-family:var(--fn);font-size:13px;color:var(--text);outline:none;
+}
+.search-wrap input::placeholder{color:var(--t3);}
+.tb-right{margin-left:auto;display:flex;align-items:center;gap:10px;}
+.ico-btn{
+  width:38px;height:38px;border-radius:10px;
+  background:var(--bg);border:1px solid var(--bd);
+  display:flex;align-items:center;justify-content:center;
+  cursor:pointer;font-size:17px;transition:all 0.2s;position:relative;
+}
+.ico-btn:hover{background:var(--pbg);border-color:rgba(99,69,255,0.25);}
+.nb{
+  position:absolute;top:-4px;right:-4px;
+  width:18px;height:18px;border-radius:50%;
+  background:var(--red);color:#fff;font-size:10px;font-weight:700;
+  display:flex;align-items:center;justify-content:center;
+  border:2px solid var(--w);
+}
+.top-user{
+  display:flex;align-items:center;gap:9px;
+  background:var(--bg);border:1px solid var(--bd);
+  border-radius:11px;padding:5px 12px 5px 5px;cursor:pointer;transition:all 0.2s;
+}
+.top-user:hover{background:var(--pbg);border-color:rgba(99,69,255,0.25);}
+.top-av{width:30px;height:30px;border-radius:50%;background:var(--p);color:#fff;display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:800;}
+
+/* PAGES */
+.content{padding:26px;flex:1;}
+.page{display:none;}
+.page.on{display:block;}
+
+/* WELCOME BAR */
+.wbar{display:flex;align-items:center;justify-content:space-between;margin-bottom:22px;flex-wrap:wrap;gap:12px;}
+.wbar h2{font-size:22px;font-weight:800;color:var(--text);}
+.wbar p{font-size:13px;color:var(--t2);margin-top:2px;}
+
+.btn-p{
+  display:inline-flex;align-items:center;gap:8px;
+  background:var(--p);color:#fff;border:none;
+  border-radius:11px;padding:10px 20px;
+  font-family:var(--fn);font-size:14px;font-weight:700;
+  cursor:pointer;transition:all 0.2s;
+  box-shadow:0 4px 14px rgba(99,69,255,0.3);
+}
+.btn-p:hover{background:#7c5cff;transform:translateY(-1px);}
+.btn-p:disabled{opacity:0.6;transform:none;cursor:not-allowed;}
+
+/* STAT CARDS */
+.stats{display:grid;grid-template-columns:repeat(4,1fr);gap:16px;margin-bottom:22px;}
+.scard{
+  background:var(--w);border:1px solid var(--bd);
+  border-radius:var(--r);padding:18px 20px;
+  box-shadow:var(--sh);transition:transform 0.2s;cursor:default;
+}
+.scard:hover{transform:translateY(-3px);}
+.scard-top{display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:10px;}
+.scard-lbl{font-size:12px;font-weight:600;color:var(--t2);}
+.scard-ico{width:40px;height:40px;border-radius:11px;display:flex;align-items:center;justify-content:center;font-size:19px;}
+.ib{background:var(--bluebg);}
+.ia{background:var(--amberbg);}
+.ig{background:var(--greenbg);}
+.ir{background:var(--redbg);}
+.scard-num{font-size:30px;font-weight:800;color:var(--text);line-height:1;margin-bottom:4px;}
+.scard-ch{font-size:12px;font-weight:600;color:var(--green);}
+.scard-ch.r{color:var(--red);}
+.spark{margin-top:12px;height:34px;}
+.spark svg{width:100%;height:34px;overflow:visible;}
+
+/* TWO COL */
+.two-col{display:grid;grid-template-columns:1fr 300px;gap:18px;margin-bottom:22px;}
+
+/* CARD */
+.card{background:var(--w);border:1px solid var(--bd);border-radius:var(--r);box-shadow:var(--sh);}
+.card-head{padding:16px 20px 0;display:flex;align-items:center;justify-content:space-between;}
+.card-title{font-size:15px;font-weight:800;color:var(--text);display:flex;align-items:center;gap:8px;}
+
+.stabs{display:flex;border-bottom:1px solid var(--bd);padding:0 20px;margin-top:12px;}
+.stab{
+  padding:9px 16px;background:none;border:none;
+  font-family:var(--fn);font-size:13px;font-weight:600;color:var(--t2);
+  cursor:pointer;border-bottom:2px solid transparent;margin-bottom:-1px;transition:all 0.2s;
+}
+.stab.on{color:var(--p);border-bottom-color:var(--p);}
+
+.scan-body{padding:18px 20px;}
+.scan-ta{
+  width:100%;min-height:120px;padding:13px 16px;
+  background:var(--bg);border:1.5px solid var(--bd);
+  border-radius:10px;font-family:var(--fn);font-size:13px;
+  color:var(--text);resize:vertical;outline:none;transition:border-color 0.2s;line-height:1.7;
+}
+.scan-ta:focus{border-color:var(--p);box-shadow:0 0 0 3px rgba(99,69,255,0.1);}
+.scan-ta::placeholder{color:var(--t3);}
+.char-ct{font-size:11px;color:var(--t3);text-align:right;margin-top:5px;}
+.scan-foot{display:flex;align-items:center;justify-content:space-between;margin-top:12px;flex-wrap:wrap;gap:10px;}
+.chips{display:flex;gap:7px;flex-wrap:wrap;}
+.chip{display:flex;align-items:center;gap:5px;padding:4px 10px;border-radius:20px;border:1px solid var(--bd);background:var(--bg);font-size:11px;font-weight:600;color:var(--t2);}
+
+/* RESULT */
+.result-box{margin-top:16px;padding:16px;background:var(--bg);border:1.5px solid var(--bd);border-radius:12px;display:none;}
+.result-box.show{display:block;animation:up 0.3s ease;}
+@keyframes up{from{opacity:0;transform:translateY(8px);}to{opacity:1;transform:translateY(0);}}
+.verdict-row{display:flex;align-items:center;gap:12px;margin-bottom:14px;flex-wrap:wrap;}
+.vpill{padding:5px 14px;border-radius:20px;font-size:13px;font-weight:800;}
+.vpill.high{background:var(--redbg);color:var(--red);}
+.vpill.medium{background:var(--amberbg);color:var(--amber);}
+.vpill.low{background:var(--greenbg);color:var(--green);}
+.vscore{font-size:13px;color:var(--t2);}
+.vtime{font-size:11px;color:var(--t3);margin-left:auto;}
+.bars{display:flex;flex-direction:column;gap:9px;}
+.brow{display:flex;align-items:center;gap:11px;}
+.blbl{font-size:12px;color:var(--t2);width:175px;flex-shrink:0;}
+.btrack{flex:1;height:7px;background:var(--bd);border-radius:4px;overflow:hidden;}
+.bfill{height:100%;border-radius:4px;transition:width 1.2s cubic-bezier(0.4,0,0.2,1);}
+.bpct{font-size:11px;color:var(--t3);width:30px;text-align:right;}
+.tips-box{margin-top:14px;padding:13px 15px;background:rgba(245,158,11,0.07);border:1px solid rgba(245,158,11,0.25);border-radius:10px;}
+.tips-title{font-size:12px;font-weight:700;color:var(--amber);margin-bottom:8px;}
+.tips-list{list-style:none;display:flex;flex-direction:column;gap:7px;}
+.tips-list li{font-size:12px;color:var(--t2);display:flex;gap:8px;line-height:1.5;}
+.tips-list li::before{content:'→';color:var(--amber);flex-shrink:0;}
+
+/* RISK CARD */
+.rcard-body{padding:18px 20px;}
+.donut-w{position:relative;width:140px;height:140px;margin:0 auto 16px;}
+.donut-w svg{width:140px;height:140px;}
+.donut-mid{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;}
+.donut-pct{font-size:26px;font-weight:800;color:var(--red);}
+.donut-lbl{font-size:11px;color:var(--t2);font-weight:600;}
+.legend{display:flex;flex-direction:column;gap:9px;margin-bottom:16px;}
+.lrow{display:flex;align-items:center;justify-content:space-between;}
+.lleft{display:flex;align-items:center;gap:8px;font-size:13px;color:var(--text);font-weight:500;}
+.ldot{width:10px;height:10px;border-radius:50%;}
+.lval{font-size:13px;font-weight:700;color:var(--text);}
+.lpct{font-size:11px;color:var(--t3);}
+.rguide{border-top:1px solid var(--bd);padding-top:14px;}
+.rg-ttl{font-size:13px;font-weight:700;color:var(--text);margin-bottom:10px;}
+.rg-item{display:flex;align-items:flex-start;gap:9px;margin-bottom:9px;}
+.rg-ico{width:28px;height:28px;border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:14px;flex-shrink:0;}
+.rg-ico.r{background:var(--redbg);}
+.rg-ico.a{background:var(--amberbg);}
+.rg-ico.g{background:var(--greenbg);}
+.rg-lbl{font-size:12px;font-weight:700;}
+.rg-lbl.r{color:var(--red);}
+.rg-lbl.a{color:var(--amber);}
+.rg-lbl.g{color:var(--green);}
+.rg-desc{font-size:11px;color:var(--t2);}
+.why{display:flex;flex-direction:column;gap:6px;margin-top:14px;padding-top:12px;border-top:1px solid var(--bd);}
+.why-item{font-size:12px;color:var(--t2);display:flex;gap:6px;align-items:center;}
+.why-item span{color:var(--p);font-weight:700;}
+.up-btn{
+  width:100%;margin-top:12px;padding:10px;
+  background:linear-gradient(135deg,var(--p),#4c1d95);
+  border:none;border-radius:10px;color:#fff;
+  font-family:var(--fn);font-size:13px;font-weight:700;
+  cursor:pointer;transition:all 0.2s;
+}
+.up-btn:hover{opacity:0.9;transform:translateY(-1px);}
+
+/* TABLE */
+.tcard{background:var(--w);border:1px solid var(--bd);border-radius:var(--r);box-shadow:var(--sh);}
+.thead2{padding:16px 20px;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid var(--bd);}
+.ttitle{font-size:15px;font-weight:800;color:var(--text);}
+.btn-out{
+  background:none;border:1px solid var(--bd);border-radius:8px;
+  padding:6px 13px;font-family:var(--fn);font-size:12px;font-weight:600;
+  color:var(--p);cursor:pointer;transition:all 0.2s;
+}
+.btn-out:hover{background:var(--pbg);border-color:rgba(99,69,255,0.3);}
+table{width:100%;border-collapse:collapse;}
+thead th{
+  padding:10px 16px;text-align:left;
+  font-size:11px;font-weight:700;letter-spacing:0.06em;
+  text-transform:uppercase;color:var(--t3);
+  background:var(--bg);border-bottom:1px solid var(--bd);
+}
+tbody td{padding:12px 16px;border-bottom:1px solid var(--bd);vertical-align:middle;}
+tbody tr:last-child td{border-bottom:none;}
+tbody tr:hover td{background:var(--bg);transition:background 0.15s;}
+.td-t{font-size:13px;font-weight:700;color:var(--text);}
+.td-c{font-size:12px;color:var(--t2);margin-top:1px;}
+.rpill{display:inline-flex;align-items:center;gap:4px;padding:3px 10px;border-radius:20px;font-size:11px;font-weight:700;}
+.rpill.high{background:var(--redbg);color:var(--red);}
+.rpill.medium{background:var(--amberbg);color:var(--amber);}
+.rpill.low{background:var(--greenbg);color:var(--green);}
+.spill{display:inline-block;padding:3px 10px;border-radius:20px;font-size:11px;font-weight:700;}
+.spill.flagged{background:var(--redbg);color:var(--red);}
+.spill.safe{background:var(--greenbg);color:var(--green);}
+.spill.review{background:var(--amberbg);color:var(--amber);}
+.actbtns{display:flex;align-items:center;gap:6px;}
+.actbtn{
+  width:30px;height:30px;border-radius:7px;
+  border:1px solid var(--bd);background:var(--bg);
+  display:flex;align-items:center;justify-content:center;
+  cursor:pointer;font-size:14px;transition:all 0.18s;
+}
+.actbtn:hover{background:var(--pbg);border-color:rgba(99,69,255,0.3);}
+.actbtn.del:hover{background:var(--redbg);border-color:rgba(239,68,68,0.3);}
+
+/* ANALYTICS */
+.an-stats{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-bottom:22px;}
+.acard{background:var(--w);border:1px solid var(--bd);border-radius:var(--r);padding:18px 20px;box-shadow:var(--sh);}
+.albl{font-size:11px;font-weight:700;color:var(--t3);letter-spacing:0.07em;text-transform:uppercase;margin-bottom:3px;}
+.anum{font-size:30px;font-weight:800;color:var(--text);}
+.atr{font-size:12px;font-weight:600;color:var(--green);margin-top:3px;}
+.atr.d{color:var(--red);}
+.bcc{background:var(--w);border:1px solid var(--bd);border-radius:var(--r);padding:22px;box-shadow:var(--sh);}
+.bc-title{font-size:15px;font-weight:800;color:var(--text);margin-bottom:18px;}
+.bc-bars{display:flex;align-items:flex-end;gap:10px;height:170px;}
+.bc-grp{flex:1;display:flex;flex-direction:column;align-items:center;gap:5px;}
+.bc-pair{width:100%;display:flex;gap:3px;align-items:flex-end;flex:1;}
+.bc-bar{flex:1;border-radius:4px 4px 0 0;min-width:10px;transition:opacity 0.2s;}
+.bc-bar:hover{opacity:0.75;cursor:pointer;}
+.bc-lbl{font-size:11px;color:var(--t3);}
+.bc-leg{display:flex;gap:14px;margin-top:12px;}
+.bc-li{display:flex;align-items:center;gap:6px;font-size:12px;color:var(--t2);}
+.bc-ld{width:12px;height:12px;border-radius:3px;}
+
+/* SETTINGS */
+.set-wrap{display:grid;grid-template-columns:210px 1fr;gap:18px;}
+.set-nav{background:var(--w);border:1px solid var(--bd);border-radius:var(--r);padding:8px;box-shadow:var(--sh);height:fit-content;}
+.sn-item{padding:10px 12px;border-radius:8px;font-size:13px;font-weight:600;color:var(--t2);cursor:pointer;transition:all 0.15s;display:flex;align-items:center;gap:9px;}
+.sn-item:hover{background:var(--bg);}
+.sn-item.on{background:var(--pbg);color:var(--p);}
+.set-panel{background:var(--w);border:1px solid var(--bd);border-radius:var(--r);padding:26px;box-shadow:var(--sh);}
+.sp-title{font-size:17px;font-weight:800;color:var(--text);margin-bottom:3px;}
+.sp-sub{font-size:13px;color:var(--t2);margin-bottom:22px;}
+.sp-field{margin-bottom:16px;}
+.sp-label{display:block;font-size:12px;font-weight:700;color:var(--t2);margin-bottom:7px;}
+.sp-input{width:100%;padding:11px 14px;background:var(--bg);border:1.5px solid var(--bd);border-radius:10px;font-family:var(--fn);font-size:14px;color:var(--text);outline:none;transition:border-color 0.2s;}
+.sp-input:focus{border-color:var(--p);}
+.sp-row{display:grid;grid-template-columns:1fr 1fr;gap:13px;}
+.tgl-row{display:flex;align-items:center;justify-content:space-between;padding:13px 0;border-bottom:1px solid var(--bd);}
+.tgl-row:last-child{border-bottom:none;}
+.tgl-lbl{font-size:14px;font-weight:600;color:var(--text);}
+.tgl-desc{font-size:12px;color:var(--t2);margin-top:2px;}
+.tgl{position:relative;width:44px;height:24px;flex-shrink:0;}
+.tgl input{display:none;}
+.tgl-sl{position:absolute;inset:0;background:var(--bd);border-radius:12px;cursor:pointer;transition:all 0.2s;}
+.tgl-sl::after{content:'';position:absolute;left:3px;top:3px;width:18px;height:18px;background:#fff;border-radius:50%;transition:all 0.2s;box-shadow:0 1px 4px rgba(0,0,0,0.2);}
+.tgl input:checked+.tgl-sl{background:var(--p);}
+.tgl input:checked+.tgl-sl::after{transform:translateX(20px);}
+
+/* SAVED JOBS */
+.saved-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:14px;}
+.sv-card{background:var(--w);border:1px solid var(--bd);border-radius:var(--r);padding:18px;box-shadow:var(--sh);transition:transform 0.2s;}
+.sv-card:hover{transform:translateY(-2px);}
+.sv-title{font-size:14px;font-weight:800;color:var(--text);margin-bottom:3px;}
+.sv-co{font-size:12px;color:var(--t2);margin-bottom:10px;}
+.sv-foot{display:flex;align-items:center;justify-content:space-between;margin-top:12px;}
+.sv-date{font-size:11px;color:var(--t3);}
+
+/* NOTIF PANEL */
+.np{
+  position:fixed;top:64px;right:18px;width:308px;
+  background:var(--w);border:1px solid var(--bd);
+  border-radius:16px;box-shadow:0 8px 32px rgba(99,69,255,0.15);z-index:500;
+  display:none;overflow:hidden;
+}
+.np.show{display:block;animation:up 0.2s ease;}
+.np-head{padding:13px 16px;border-bottom:1px solid var(--bd);display:flex;align-items:center;justify-content:space-between;}
+.np-title{font-size:14px;font-weight:800;color:var(--text);}
+.np-mark{font-size:11px;color:var(--p);background:none;border:none;cursor:pointer;font-family:var(--fn);font-weight:600;}
+.np-item{padding:12px 16px;border-bottom:1px solid var(--bd);display:flex;gap:10px;cursor:pointer;transition:background 0.15s;}
+.np-item:hover{background:var(--bg);}
+.np-item:last-child{border-bottom:none;}
+.np-dot{width:8px;height:8px;border-radius:50%;margin-top:5px;flex-shrink:0;}
+.np-dot.r{background:var(--red);}
+.np-dot.a{background:var(--amber);}
+.np-dot.g{background:var(--green);}
+.np-it{font-size:13px;font-weight:600;color:var(--text);}
+.np-id{font-size:11px;color:var(--t2);margin-top:2px;}
+.np-tm{font-size:10px;color:var(--t3);margin-top:3px;}
+
+/* MODAL */
+.modal-bg{
+  position:fixed;inset:0;background:rgba(0,0,0,0.42);
+  backdrop-filter:blur(4px);z-index:1000;
+  display:flex;align-items:center;justify-content:center;padding:20px;
+  opacity:0;pointer-events:none;transition:opacity 0.2s;
+}
+.modal-bg.show{opacity:1;pointer-events:all;}
+.modal{
+  background:var(--w);border-radius:20px;
+  padding:30px;width:100%;max-width:490px;
+  box-shadow:0 24px 60px rgba(0,0,0,0.18);
+  transform:scale(0.95);transition:transform 0.2s;
+}
+.modal-bg.show .modal{transform:scale(1);}
+.modal-hd{display:flex;align-items:center;justify-content:space-between;margin-bottom:20px;}
+.modal-title{font-size:18px;font-weight:800;color:var(--text);}
+.modal-x{background:none;border:none;font-size:20px;cursor:pointer;color:var(--t2);padding:4px;border-radius:6px;}
+.modal-x:hover{background:var(--bg);}
+.m-label{display:block;font-size:12px;font-weight:700;color:var(--t2);margin-bottom:6px;}
+.m-input{width:100%;padding:11px 14px;background:var(--bg);border:1.5px solid var(--bd);border-radius:10px;font-family:var(--fn);font-size:14px;color:var(--text);outline:none;margin-bottom:13px;transition:border-color 0.2s;}
+.m-input:focus{border-color:var(--p);}
+.m-err{font-size:12px;color:var(--red);font-weight:500;margin-bottom:10px;display:none;}
+.m-foot{display:flex;gap:10px;margin-top:16px;}
+.btn-grey{flex:1;padding:11px;background:var(--bg);border:1px solid var(--bd);border-radius:10px;font-family:var(--fn);font-size:14px;font-weight:600;color:var(--t2);cursor:pointer;}
+.btn-grey:hover{background:var(--bd);}
+.btn-p2{flex:1;padding:11px;background:var(--p);border:none;border-radius:10px;font-family:var(--fn);font-size:14px;font-weight:700;color:#fff;cursor:pointer;transition:all 0.2s;}
+.btn-p2:hover{background:#7c5cff;}
+.btn-p2:disabled{opacity:0.6;cursor:not-allowed;}
+
+/* PRO MODAL */
+.pro-price{text-align:center;margin:8px 0 18px;}
+.pro-amt{font-size:44px;font-weight:800;color:var(--p);}
+.pro-per{font-size:14px;color:var(--t2);}
+.pro-grid{display:grid;grid-template-columns:1fr 1fr;gap:11px;margin-bottom:4px;}
+.pf{display:flex;gap:9px;}
+.pf-ico{font-size:20px;flex-shrink:0;}
+.pf-title{font-size:13px;font-weight:700;color:var(--text);}
+.pf-desc{font-size:11px;color:var(--t2);}
+
+/* TOAST */
+.toast{
+  position:fixed;bottom:24px;left:50%;
+  transform:translateX(-50%) translateY(14px);
+  background:var(--text);color:#fff;
+  padding:11px 22px;border-radius:10px;
+  font-size:13px;font-weight:600;z-index:9999;
+  opacity:0;transition:all 0.3s;
+  box-shadow:0 8px 24px rgba(0,0,0,0.2);white-space:nowrap;
+}
+.toast.show{opacity:1;transform:translateX(-50%) translateY(0);}
+.toast.ok{background:var(--green);}
+.toast.err{background:var(--red);}
+
+/* DARK MODE */
+body.dark{
+  --bg:#0F0F18;--w:#16161E;--bd:#2A2A38;
+  --text:#F0F0F8;--t2:#8888A0;--t3:#55556A;--pbg:#1E1830;
+}
+
+@media(max-width:900px){
+  .stats{grid-template-columns:repeat(2,1fr);}
+  .two-col{grid-template-columns:1fr;}
+  .an-stats{grid-template-columns:repeat(2,1fr);}
+  .set-wrap{grid-template-columns:1fr;}
+}
+@media(max-width:600px){
+  .sidebar{display:none;}
+  .main{margin-left:0!important;}
+  .stats{grid-template-columns:1fr 1fr;}
+}
+</style>
+</head>
+<body>
+
+<div class="layout">
+
+<!-- ══ SIDEBAR ══ -->
+<aside class="sidebar">
+  <div class="sb-logo">
+    <div class="sb-logo-icon">🛡️</div>
+    <div>
+      <div class="sb-logo-name">AI Scam</div>
+      <div class="sb-logo-sub">Job Detection</div>
+    </div>
+  </div>
+  <nav class="sb-nav">
+    <div class="sb-sec">Main</div>
+    <div class="sb-item on"  id="nav-dashboard" onclick="goPage('dashboard',this)"><span class="ico">🏠</span> Dashboard</div>
+    <div class="sb-item"     id="nav-postings"  onclick="goPage('postings',this)"><span class="ico">💼</span> Job Postings<span class="bdg p">28</span></div>
+    <div class="sb-item"     id="nav-scan"      onclick="goPage('scan',this)"><span class="ico">🔍</span> Scan Jobs</div>
+    <div class="sb-sec">Reports</div>
+    <div class="sb-item"     id="nav-reports"   onclick="goPage('reports',this)"><span class="ico">📋</span> Scam Reports<span class="bdg">44</span></div>
+    <div class="sb-item"     id="nav-analytics" onclick="goPage('analytics',this)"><span class="ico">📊</span> Analytics</div>
+    <div class="sb-item"     id="nav-saved"     onclick="goPage('saved',this)"><span class="ico">🔖</span> Saved Jobs</div>
+    <div class="sb-sec">Account</div>
+    <div class="sb-item"     id="nav-settings"  onclick="goPage('settings',this)"><span class="ico">⚙️</span> Settings</div>
+    <div class="sb-item"                        onclick="showToast('Opening Help & Support...','ok')"><span class="ico">❓</span> Help & Support</div>
+  </nav>
+  <div class="ai-card">
+    <h4>AI Protection</h4>
+    <p>Our AI continuously learns from new scams to keep you safe.</p>
+    <button onclick="openPro()">Learn More</button>
+  </div>
+  <div class="sb-user">
+    <div class="sb-av"   id="sbAv">{{ user_name[0]|upper }}</div>
+    <div>
+      <div class="sb-uname" id="sbName">{{ user_name }}</div>
+      <div class="sb-urole" id="sbRole">{{ user_role }}</div>
+    </div>
+    <button class="logout-btn" onclick="doLogout()" title="Logout">⇥</button>
+  </div>
+</aside>
+
+<!-- ══ MAIN ══ -->
+<main class="main">
+
+  <!-- TOPBAR -->
+  <div class="topbar">
+    <div class="search-wrap">
+      <span style="font-size:16px;color:var(--t3)">🔍</span>
+      <input type="text" placeholder="Search jobs..." id="gsearch" oninput="liveSearch(this.value)"/>
+    </div>
+    <div class="tb-right">
+      <div class="ico-btn" id="themeBtn" onclick="toggleTheme()" title="Dark mode">🌙</div>
+      <div class="ico-btn" onclick="toggleNotif()">🔔<div class="nb" id="nBadge">4</div></div>
+      <div class="top-user" onclick="goPage('settings',document.getElementById('nav-settings'))">
+        <div class="top-av" id="topAv">{{ user_name[0]|upper }}</div>
+        <div>
+          <div style="font-size:13px;font-weight:700;color:var(--text)" id="topName">{{ user_name }}</div>
+          <div style="font-size:11px;color:var(--t2)" id="topRole">{{ user_role }}</div>
+        </div>
+        <span style="font-size:10px;color:var(--t3);margin-left:4px">▼</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- NOTIFICATIONS -->
+  <div class="np" id="notifPanel">
+    <div class="np-head">
+      <div class="np-title">Notifications</div>
+      <button class="np-mark" onclick="markRead()">Mark all read</button>
+    </div>
+    <div class="np-item"><div class="np-dot r"></div><div><div class="np-it">High Risk Job Detected</div><div class="np-id">"Data Entry Operator" flagged as scam</div><div class="np-tm">2 min ago</div></div></div>
+    <div class="np-item"><div class="np-dot a"></div><div><div class="np-it">Medium Risk Warning</div><div class="np-id">"Work From Home Asst." needs review</div><div class="np-tm">1 hour ago</div></div></div>
+    <div class="np-item"><div class="np-dot g"></div><div><div class="np-it">Scan Complete</div><div class="np-id">156 jobs scanned, 112 verified safe</div><div class="np-tm">3 hours ago</div></div></div>
+    <div class="np-item"><div class="np-dot r"></div><div><div class="np-it">New Scam Pattern Found</div><div class="np-id">AI model updated with 12 new signatures</div><div class="np-tm">Yesterday</div></div></div>
+  </div>
+
+  <div class="content">
+
+    <!-- ══ DASHBOARD ══ -->
+    <div class="page on" id="page-dashboard">
+      <div class="wbar">
+        <div><h2>Welcome back, <span id="wName">{{ user_name.split(' ')[0] }}</span>! 👋</h2><p>Let's build a safe hiring environment.</p></div>
+        <button class="btn-p" onclick="openCreate()">+ Create Job Post</button>
+      </div>
+
+      <div class="stats">
+        <div class="scard"><div class="scard-top"><div class="scard-lbl">Jobs Posted</div><div class="scard-ico ib">📄</div></div><div class="scard-num" id="statPosted">28</div><div class="scard-ch">+12 this month</div><div class="spark"><svg><polyline points="0,30 25,22 50,26 75,14 100,18 125,9 150,14" fill="none" stroke="#3B82F6" stroke-width="2" opacity="0.7" stroke-linecap="round"/></svg></div></div>
+        <div class="scard"><div class="scard-top"><div class="scard-lbl">Jobs Scanned</div><div class="scard-ico ia">🔍</div></div><div class="scard-num" id="statScanned">0</div><div class="scard-ch" id="statScannedSub">Your scans will appear here</div><div class="spark"><svg><polyline points="0,34 25,26 50,30 75,18 100,22 125,8 150,13" fill="none" stroke="#F59E0B" stroke-width="2" opacity="0.7" stroke-linecap="round"/></svg></div></div>
+        <div class="scard"><div class="scard-top"><div class="scard-lbl">Safe Jobs</div><div class="scard-ico ig">✅</div></div><div class="scard-num" id="statSafe">0</div><div class="scard-ch" id="statSafeSub">Run your first scan</div><div class="spark"><svg><polyline points="0,28 25,20 50,25 75,13 100,17 125,8 150,12" fill="none" stroke="#10B981" stroke-width="2" opacity="0.7" stroke-linecap="round"/></svg></div></div>
+        <div class="scard"><div class="scard-top"><div class="scard-lbl">Potential Scams</div><div class="scard-ico ir">⚠️</div></div><div class="scard-num" id="statFlagged">0</div><div class="scard-ch r" id="statFlaggedSub">Scams caught</div><div class="spark"><svg><polyline points="0,12 25,20 50,14 75,26 100,18 125,30 150,24" fill="none" stroke="#EF4444" stroke-width="2" opacity="0.7" stroke-linecap="round"/></svg></div></div>
+      </div>
+
+      <div class="two-col">
+        <!-- SCAN CARD -->
+        <div class="card">
+          <div class="card-head"><div class="card-title">🔍 Scan a Job Posting</div></div>
+          <div class="stabs">
+            <button class="stab on" onclick="switchScanTab('text',this)">Paste Text</button>
+            <button class="stab"    onclick="switchScanTab('url',this)">Job URL</button>
+          </div>
+          <div class="scan-body">
+            <div id="scanText">
+              <textarea class="scan-ta" id="scanInput" placeholder="Paste job description here to analyze for potential scams..." oninput="updateCC(this)"></textarea>
+              <div class="char-ct" id="charCt">0 / 5000</div>
+            </div>
+            <div id="scanUrl" style="display:none">
+              <input class="scan-ta" style="min-height:48px;resize:none" placeholder="Paste job URL e.g. https://naukri.com/job/..."/>
+              <div style="font-size:12px;color:var(--t3);margin-top:5px">URL scanning available in Pro version</div>
+            </div>
+            <div class="scan-foot">
+              <div class="chips">
+                <div class="chip">⚡ AI Powered</div>
+                <div class="chip">🔒 Private</div>
+                <div class="chip">📋 Detailed</div>
+              </div>
+              <button class="btn-p" id="scanBtn" onclick="runScan()">✨ Analyze Job</button>
+            </div>
+            <div class="result-box" id="resultBox"></div>
+          </div>
+        </div>
+
+        <!-- RISK CARD -->
+        <div class="card">
+          <div class="card-head"><div class="card-title">AI Scam Risk Overview</div></div>
+          <div class="rcard-body">
+            <div class="donut-w">
+              <svg viewBox="0 0 140 140">
+                <circle cx="70" cy="70" r="52" fill="none" stroke="#ECFDF5" stroke-width="14"/>
+                <circle cx="70" cy="70" r="52" fill="none" stroke="#EF4444" stroke-width="14" stroke-dasharray="326.7" stroke-dashoffset="234.5" stroke-linecap="round" transform="rotate(-90 70 70)"/>
+                <circle cx="70" cy="70" r="52" fill="none" stroke="#10B981" stroke-width="14" stroke-dasharray="326.7" stroke-dashoffset="-92.2" stroke-linecap="round" transform="rotate(-90 70 70)"/>
+              </svg>
+              <div class="donut-mid"><div class="donut-pct">28.2%</div><div class="donut-lbl">Risky Jobs</div></div>
+            </div>
+            <div class="legend">
+              <div class="lrow"><div class="lleft"><div class="ldot" style="background:var(--green)"></div>Safe Jobs</div><div><span class="lval">112</span> <span class="lpct">(71.8%)</span></div></div>
+              <div class="lrow"><div class="lleft"><div class="ldot" style="background:var(--red)"></div>Potential Scams</div><div><span class="lval">44</span> <span class="lpct">(28.2%)</span></div></div>
+            </div>
+            <div class="rguide">
+              <div class="rg-ttl">Risk Level Guide</div>
+              <div class="rg-item"><div class="rg-ico r">🔴</div><div><div class="rg-lbl r">High Risk</div><div class="rg-desc">Strong indicators of scam detected.</div></div></div>
+              <div class="rg-item"><div class="rg-ico a">🟡</div><div><div class="rg-lbl a">Medium Risk</div><div class="rg-desc">Some suspicious elements found.</div></div></div>
+              <div class="rg-item"><div class="rg-ico g">🟢</div><div><div class="rg-lbl g">Low Risk</div><div class="rg-desc">Job appears to be safe.</div></div></div>
+            </div>
+            <div class="why">
+              <div style="font-size:12px;font-weight:700;color:var(--text);margin-bottom:3px">Why Use AI Scam Detection?</div>
+              <div class="why-item"><span>✓</span> Save time and reduce hiring risks</div>
+              <div class="why-item"><span>✓</span> Protect your identity and money</div>
+              <div class="why-item"><span>✓</span> Ensure candidate safety</div>
+              <div class="why-item"><span>✓</span> AI learns from millions of real scams</div>
+            </div>
+            <button class="up-btn" onclick="openPro()">⭐ Upgrade to Pro</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- TABLE -->
+      <div class="tcard">
+        <div class="thead2"><div class="ttitle">Recent Job Postings</div><button class="btn-out" onclick="goPage('postings',document.getElementById('nav-postings'))">View All</button></div>
+        <table><thead><tr><th>Job Title</th><th>Company</th><th>Applicants</th><th>AI Risk Score</th><th>Status</th><th>Actions</th></tr></thead>
+        <tbody id="dashTbl"></tbody></table>
+      </div>
+    </div>
+
+    <!-- ══ JOB POSTINGS ══ -->
+    <div class="page" id="page-postings">
+      <div class="wbar"><div><h2>Job Postings 💼</h2><p>Manage and monitor all your listings.</p></div><button class="btn-p" onclick="openCreate()">+ Create Job Post</button></div>
+      <div class="tcard">
+        <div class="thead2">
+          <div class="ttitle">All Job Postings</div>
+          <div style="display:flex;gap:8px">
+            <select style="padding:6px 12px;border:1px solid var(--bd);border-radius:8px;font-family:var(--fn);font-size:12px;background:var(--bg);color:var(--text);cursor:pointer;outline:none" onchange="filterTable(this.value)">
+              <option value="all">All Status</option><option value="flagged">Flagged</option><option value="safe">Safe</option><option value="review">Review</option>
+            </select>
+            <button class="btn-out" onclick="showToast('Exporting CSV...','ok')">⬇ Export</button>
+          </div>
+        </div>
+        <table><thead><tr><th>Job Title</th><th>Company</th><th>Applicants</th><th>AI Risk Score</th><th>Status</th><th>Actions</th></tr></thead>
+        <tbody id="allTbl"></tbody></table>
+      </div>
+    </div>
+
+    <!-- ══ SCAN JOBS ══ -->
+    <div class="page" id="page-scan">
+      <div class="wbar"><div><h2>Scan Jobs 🔍</h2><p>Paste any job description for instant AI analysis.</p></div></div>
+      <div class="card">
+        <div class="card-head"><div class="card-title">🔍 Full Job Scanner</div></div>
+        <div class="scan-body" style="padding:22px">
+          <textarea class="scan-ta" id="fullScanInput" rows="10" placeholder="Paste the full job description here for a detailed analysis...&#10;&#10;The more text you provide, the more accurate the result will be."></textarea>
+          <div style="display:flex;justify-content:flex-end;margin-top:12px">
+            <button class="btn-p" onclick="runFullScan()">✨ Run Full Analysis</button>
+          </div>
+          <div class="result-box" id="fullResultBox"></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ══ SCAM REPORTS ══ -->
+    <div class="page" id="page-reports">
+      <div class="wbar"><div><h2>Scam Reports 📋</h2><p>44 potential scams detected and flagged.</p></div><button class="btn-p" onclick="showToast('Generating PDF report...','ok')">⬇ Export Report</button></div>
+      <div class="tcard">
+        <div class="thead2"><div class="ttitle">Flagged Jobs</div></div>
+        <table>
+          <thead><tr><th>Job Title</th><th>Detected Signals</th><th>Risk</th><th>Date Flagged</th><th>Actions</th></tr></thead>
+          <tbody>
+            <tr><td><div class="td-t">Data Entry Operator</div><div class="td-c">QuickWork Solutions</div></td><td><div style="display:flex;gap:5px;flex-wrap:wrap"><span style="padding:3px 9px;border-radius:20px;font-size:11px;font-weight:600;background:var(--redbg);color:var(--red)">Payment Fee</span><span style="padding:3px 9px;border-radius:20px;font-size:11px;font-weight:600;background:var(--redbg);color:var(--red)">No Experience</span></div></td><td><span class="rpill high">🔴 High Risk</span></td><td style="font-size:12px;color:var(--t2)">Jun 1, 2025</td><td><div class="actbtns"><div class="actbtn" onclick="showToast('Opening full report...')">👁</div><div class="actbtn del" onclick="this.closest('tr').remove();showToast('Report deleted','err')">🗑</div></div></td></tr>
+            <tr><td><div class="td-t">Online Survey Taker</div><div class="td-c">InstantCash Ltd.</div></td><td><div style="display:flex;gap:5px"><span style="padding:3px 9px;border-radius:20px;font-size:11px;font-weight:600;background:var(--redbg);color:var(--red)">Unrealistic Pay</span></div></td><td><span class="rpill high">🔴 High Risk</span></td><td style="font-size:12px;color:var(--t2)">May 30, 2025</td><td><div class="actbtns"><div class="actbtn" onclick="showToast('Opening full report...')">👁</div><div class="actbtn del" onclick="this.closest('tr').remove();showToast('Report deleted','err')">🗑</div></div></td></tr>
+            <tr><td><div class="td-t">Work From Home Asst.</div><div class="td-c">Global Connect</div></td><td><div style="display:flex;gap:5px"><span style="padding:3px 9px;border-radius:20px;font-size:11px;font-weight:600;background:var(--amberbg);color:var(--amber)">Urgency Pressure</span></div></td><td><span class="rpill medium">🟡 Medium Risk</span></td><td style="font-size:12px;color:var(--t2)">May 28, 2025</td><td><div class="actbtns"><div class="actbtn" onclick="showToast('Opening full report...')">👁</div><div class="actbtn del" onclick="this.closest('tr').remove();showToast('Report deleted','err')">🗑</div></div></td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- ══ ANALYTICS ══ -->
+    <div class="page" id="page-analytics">
+      <div class="wbar"><div><h2>Analytics 📊</h2><p>Deep insights into your job posting safety.</p></div><button class="btn-p" onclick="showToast('Exporting analytics...','ok')">⬇ Export</button></div>
+      <div class="an-stats">
+        <div class="acard"><div class="albl">Total Scans</div><div class="anum">156</div><div class="atr">↑ +18% this month</div></div>
+        <div class="acard"><div class="albl">Detection Accuracy</div><div class="anum">94.7%</div><div class="atr">↑ +2.1%</div></div>
+        <div class="acard"><div class="albl">Users Protected</div><div class="anum">9,103</div><div class="atr">↑ +340 this week</div></div>
+        <div class="acard"><div class="albl">Avg Risk Score</div><div class="anum">34.2</div><div class="atr d">↓ Improving</div></div>
+        <div class="acard"><div class="albl">High Risk Jobs</div><div class="anum">44</div><div class="atr d">↑ +6 this month</div></div>
+        <div class="acard"><div class="albl">Reports Generated</div><div class="anum">218</div><div class="atr">↑ +42 this month</div></div>
+      </div>
+      <div class="bcc">
+        <div class="bc-title">Monthly Scam Detection — 2025</div>
+        <div class="bc-bars">
+          <div class="bc-grp"><div class="bc-pair"><div class="bc-bar" style="height:55%;background:var(--green)"></div><div class="bc-bar" style="height:22%;background:var(--red)"></div></div><div class="bc-lbl">Jan</div></div>
+          <div class="bc-grp"><div class="bc-pair"><div class="bc-bar" style="height:65%;background:var(--green)"></div><div class="bc-bar" style="height:28%;background:var(--red)"></div></div><div class="bc-lbl">Feb</div></div>
+          <div class="bc-grp"><div class="bc-pair"><div class="bc-bar" style="height:78%;background:var(--green)"></div><div class="bc-bar" style="height:33%;background:var(--red)"></div></div><div class="bc-lbl">Mar</div></div>
+          <div class="bc-grp"><div class="bc-pair"><div class="bc-bar" style="height:62%;background:var(--green)"></div><div class="bc-bar" style="height:25%;background:var(--red)"></div></div><div class="bc-lbl">Apr</div></div>
+          <div class="bc-grp"><div class="bc-pair"><div class="bc-bar" style="height:88%;background:var(--green)"></div><div class="bc-bar" style="height:38%;background:var(--red)"></div></div><div class="bc-lbl">May</div></div>
+          <div class="bc-grp"><div class="bc-pair"><div class="bc-bar" style="height:100%;background:var(--green)"></div><div class="bc-bar" style="height:44%;background:var(--red)"></div></div><div class="bc-lbl">Jun</div></div>
+        </div>
+        <div class="bc-leg"><div class="bc-li"><div class="bc-ld" style="background:var(--green)"></div>Safe Jobs</div><div class="bc-li"><div class="bc-ld" style="background:var(--red)"></div>Flagged Jobs</div></div>
+      </div>
+    </div>
+
+    <!-- ══ SAVED JOBS ══ -->
+    <div class="page" id="page-saved">
+      <div class="wbar"><div><h2>Saved Jobs 🔖</h2><p>Jobs bookmarked for later review.</p></div></div>
+      <div class="saved-grid">
+        <div class="sv-card"><div class="sv-title">Software Developer</div><div class="sv-co">TechCorp India</div><span class="rpill low">🟢 Low Risk</span><div class="sv-foot"><div class="sv-date">Saved Jun 1, 2025</div><div class="actbtns"><div class="actbtn" onclick="showToast('Viewing job...')">👁</div><div class="actbtn del" onclick="this.closest('.sv-card').remove();showToast('Removed','err')">🗑</div></div></div></div>
+        <div class="sv-card"><div class="sv-title">Product Manager</div><div class="sv-co">StartupXYZ</div><span class="rpill medium">🟡 Medium Risk</span><div class="sv-foot"><div class="sv-date">Saved May 30, 2025</div><div class="actbtns"><div class="actbtn" onclick="showToast('Viewing job...')">👁</div><div class="actbtn del" onclick="this.closest('.sv-card').remove();showToast('Removed','err')">🗑</div></div></div></div>
+        <div class="sv-card"><div class="sv-title">UI/UX Designer</div><div class="sv-co">DesignHub Co.</div><span class="rpill low">🟢 Low Risk</span><div class="sv-foot"><div class="sv-date">Saved May 25, 2025</div><div class="actbtns"><div class="actbtn" onclick="showToast('Viewing job...')">👁</div><div class="actbtn del" onclick="this.closest('.sv-card').remove();showToast('Removed','err')">🗑</div></div></div></div>
+      </div>
+    </div>
+
+    <!-- ══ SETTINGS ══ -->
+    <div class="page" id="page-settings">
+      <div class="wbar"><div><h2>Settings ⚙️</h2><p>Manage your account and preferences.</p></div><button class="btn-p" onclick="saveSettings()">Save Changes</button></div>
+      <div class="set-wrap">
+        <div class="set-nav">
+          <div class="sn-item on" onclick="switchSP(this,'sp-profile')">👤 Profile</div>
+          <div class="sn-item"    onclick="switchSP(this,'sp-notif')">🔔 Notifications</div>
+          <div class="sn-item"    onclick="switchSP(this,'sp-security')">🔒 Security</div>
+          <div class="sn-item"    onclick="switchSP(this,'sp-billing')">💳 Billing</div>
+          <div class="sn-item"    onclick="switchSP(this,'sp-api')">🔑 API Access</div>
+        </div>
+        <div class="set-panel">
+          <div id="sp-profile">
+            <div class="sp-title">Profile Information</div>
+            <div class="sp-sub">Update your personal details.</div>
+            <div class="sp-row">
+              <div class="sp-field"><label class="sp-label">First Name</label><input class="sp-input" id="spFirst" value="{{ user_name.split(' ')[0] }}"/></div>
+              <div class="sp-field"><label class="sp-label">Last Name</label><input class="sp-input" id="spLast" value="{{ user_name.split(' ')[1] if ' ' in user_name else '' }}"/></div>
+            </div>
+            <div class="sp-field"><label class="sp-label">Email Address</label><input class="sp-input" value="{{ user_email }}" readonly style="opacity:0.6;cursor:not-allowed"/></div>
+            <div class="sp-field"><label class="sp-label">Role</label>
+              <select class="sp-input" id="spRole">
+                <option {% if user_role=='Job Seeker' %}selected{% endif %}>Job Seeker</option>
+                <option {% if user_role=='Recruiter' %}selected{% endif %}>Recruiter</option>
+                <option {% if user_role=='HR Manager' %}selected{% endif %}>HR Manager</option>
+                <option {% if user_role=='Company Admin' %}selected{% endif %}>Company Admin</option>
+              </select>
+            </div>
+          </div>
+          <div id="sp-notif" style="display:none">
+            <div class="sp-title">Notifications</div><div class="sp-sub">Control your alert preferences.</div>
+            <div class="tgl-row"><div><div class="tgl-lbl">Email Alerts for High Risk Jobs</div><div class="tgl-desc">Get emailed when a scam is detected</div></div><label class="tgl"><input type="checkbox" checked/><div class="tgl-sl"></div></label></div>
+            <div class="tgl-row"><div><div class="tgl-lbl">Weekly Summary Report</div><div class="tgl-desc">Receive a weekly digest every Monday</div></div><label class="tgl"><input type="checkbox" checked/><div class="tgl-sl"></div></label></div>
+            <div class="tgl-row"><div><div class="tgl-lbl">New Scam Pattern Alerts</div><div class="tgl-desc">Be notified when AI finds new fraud patterns</div></div><label class="tgl"><input type="checkbox"/><div class="tgl-sl"></div></label></div>
+          </div>
+          <div id="sp-security" style="display:none">
+            <div class="sp-title">Security</div><div class="sp-sub">Change your password below.</div>
+            <div class="sp-field"><label class="sp-label">Current Password</label><input class="sp-input" type="password" id="curPass" placeholder="••••••••"/></div>
+            <div class="sp-field"><label class="sp-label">New Password</label><input class="sp-input" type="password" id="newPass" placeholder="Min 6 characters"/></div>
+            <div class="sp-field"><label class="sp-label">Confirm New Password</label><input class="sp-input" type="password" id="confPass" placeholder="Repeat new password"/></div>
+            <div style="font-size:12px;color:var(--red);font-weight:500;margin-bottom:10px;display:none" id="passErr"></div>
+            <button class="btn-p" onclick="changePassword()">Update Password</button>
+          </div>
+          <div id="sp-billing" style="display:none">
+            <div class="sp-title">Billing & Subscription</div><div class="sp-sub">Manage your plan.</div>
+            <div style="background:var(--pbg);border:1px solid rgba(99,69,255,0.2);border-radius:12px;padding:18px;margin-bottom:18px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:12px">
+              <div><div style="font-size:15px;font-weight:800;color:var(--p)">Free Plan</div><div style="font-size:12px;color:var(--t2);margin-top:2px">50 scans/month · Basic reports</div></div>
+              <button class="btn-p" onclick="openPro()">⭐ Upgrade to Pro</button>
+            </div>
+            <div style="font-size:13px;color:var(--t2)">No payment method on file. Upgrade to Pro to add billing.</div>
+          </div>
+          <div id="sp-api" style="display:none">
+            <div class="sp-title">API Access</div><div class="sp-sub">Integrate ScamShield into your platform.</div>
+            <div class="sp-field"><label class="sp-label">Your API Key</label>
+              <div style="display:flex;gap:8px">
+                <input class="sp-input" value="sk-scam-free-demo-xxxx" readonly style="font-size:13px;letter-spacing:0.05em"/>
+                <button class="btn-p" onclick="showToast('API key copied!','ok')">Copy</button>
+              </div>
+            </div>
+            <div style="font-size:13px;color:var(--t2)">Full API access available on Pro plan.</div>
+            <button class="btn-p" style="margin-top:14px" onclick="openPro()">⭐ Get Full API Access</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div><!-- /content -->
+</main>
+</div><!-- /layout -->
+
+<!-- CREATE JOB MODAL -->
+<div class="modal-bg" id="createModal">
+  <div class="modal">
+    <div class="modal-hd"><div class="modal-title">➕ Create Job Post</div><button class="modal-x" onclick="closeModal('createModal')">✕</button></div>
+    <label class="m-label">Job Title *</label><input class="m-input" id="cjTitle" placeholder="e.g. Software Engineer"/>
+    <label class="m-label">Company Name *</label><input class="m-input" id="cjCompany" placeholder="e.g. TechCorp India"/>
+    <label class="m-label">Job Description (will be auto-scanned)</label>
+    <textarea class="m-input" id="cjDesc" rows="4" placeholder="Paste the job description for instant AI scan..."></textarea>
+    <div class="m-err" id="cjErr"></div>
+    <div class="m-foot">
+      <button class="btn-grey" onclick="closeModal('createModal')">Cancel</button>
+      <button class="btn-p2" id="cjBtn" onclick="createJob()">✨ Create & Scan</button>
+    </div>
+  </div>
+</div>
+
+<!-- PRO MODAL -->
+<div class="modal-bg" id="proModal">
+  <div class="modal">
+    <div class="modal-hd"><div class="modal-title">⭐ Upgrade to Pro</div><button class="modal-x" onclick="closeModal('proModal')">✕</button></div>
+    <div class="pro-price"><div class="pro-amt">₹499</div><div class="pro-per">per month · Cancel anytime</div></div>
+    <div class="pro-grid">
+      <div class="pf"><div class="pf-ico">🔍</div><div><div class="pf-title">Unlimited Scans</div><div class="pf-desc">No monthly limits</div></div></div>
+      <div class="pf"><div class="pf-ico">📊</div><div><div class="pf-title">Advanced Analytics</div><div class="pf-desc">Deep pattern insights</div></div></div>
+      <div class="pf"><div class="pf-ico">🔑</div><div><div class="pf-title">API Access</div><div class="pf-desc">Integrate anywhere</div></div></div>
+      <div class="pf"><div class="pf-ico">📁</div><div><div class="pf-title">File & URL Scan</div><div class="pf-desc">Scan PDFs and links</div></div></div>
+      <div class="pf"><div class="pf-ico">👥</div><div><div class="pf-title">Team Access</div><div class="pf-desc">Up to 10 members</div></div></div>
+      <div class="pf"><div class="pf-ico">🛡️</div><div><div class="pf-title">Priority Support</div><div class="pf-desc">24/7 dedicated help</div></div></div>
+    </div>
+    <div class="m-foot">
+      <button class="btn-grey" onclick="closeModal('proModal')">Maybe Later</button>
+      <button class="btn-p2" onclick="showToast('Redirecting to payment...','ok');closeModal('proModal')">Start Free Trial →</button>
+    </div>
+  </div>
+</div>
+
+<div class="toast" id="toastEl"></div>
+
+<script>
+// ── JOB DATA ──
+var JOBS = [
+  {title:'Data Entry Operator',  company:'QuickWork Solutions',apps:32,score:87,level:'high',  status:'flagged'},
+  {title:'Software Developer',   company:'TechCorp India',     apps:85,score:12,level:'low',   status:'safe'},
+  {title:'Work From Home Asst.', company:'Global Connect',     apps:46,score:55,level:'medium',status:'review'},
+  {title:'Marketing Executive',  company:'Bright Future Ltd.', apps:23,score:28,level:'low',   status:'safe'},
+  {title:'Online Survey Taker',  company:'InstantCash Ltd.',   apps:19,score:91,level:'high',  status:'flagged'},
+];
+
+// ── LOAD USER STATS ──
+fetch('/api/stats').then(function(r){return r.json();}).then(function(d){
+  if(d.total !== undefined){
+    document.getElementById('statScanned').textContent  = d.total;
+    document.getElementById('statSafe').textContent     = d.safe;
+    document.getElementById('statFlagged').textContent  = d.flagged;
+    if(d.total>0){
+      document.getElementById('statScannedSub').textContent = '+'+d.total+' total scans';
+      document.getElementById('statSafeSub').textContent    = Math.round(d.safe/d.total*100)+'% safe rate';
+      document.getElementById('statFlaggedSub').textContent = d.flagged+' scams caught';
+    }
+  }
+}).catch(function(){});
+
+// ── TABLE ──
+function makeRow(j){
+  var icon=j.level==='high'?'🔴':j.level==='medium'?'🟡':'🟢';
+  var cap=j.level.charAt(0).toUpperCase()+j.level.slice(1);
+  var sc=j.status.charAt(0).toUpperCase()+j.status.slice(1);
+  return '<tr>'
+    +'<td><div class="td-t">'+j.title+'</div><div class="td-c">'+j.company+'</div></td>'
+    +'<td style="font-size:13px;color:var(--t2)">'+j.company+'</td>'
+    +'<td style="font-size:13px;font-weight:600">'+j.apps+'</td>'
+    +'<td><span class="rpill '+j.level+'">'+icon+' '+cap+' Risk ('+j.score+')</span></td>'
+    +'<td><span class="spill '+j.status+'">'+sc+'</span></td>'
+    +'<td><div class="actbtns">'
+    +'<div class="actbtn" onclick="showToast(\'Viewing: '+j.title+'\')">👁</div>'
+    +'<div class="actbtn" onclick="showToast(\'Downloading report...\',\'ok\')">⬇</div>'
+    +'<div class="actbtn del" onclick="this.closest(\'tr\').remove();showToast(\'Job removed\',\'err\')">🗑</div>'
+    +'</div></td></tr>';
+}
+function renderTbl(id,data){ var e=document.getElementById(id); if(e) e.innerHTML=data.map(makeRow).join(''); }
+renderTbl('dashTbl',JOBS);
+renderTbl('allTbl',JOBS);
+
+function filterTable(s){ var d=s==='all'?JOBS:JOBS.filter(function(j){return j.status===s;}); renderTbl('allTbl',d); }
+function liveSearch(q){ if(!q.trim()){renderTbl('dashTbl',JOBS);return;} var f=JOBS.filter(function(j){return j.title.toLowerCase().indexOf(q.toLowerCase())>-1||j.company.toLowerCase().indexOf(q.toLowerCase())>-1;}); renderTbl('dashTbl',f); }
+
+// ── NAVIGATION ──
+function goPage(id,el){
+  document.querySelectorAll('.page').forEach(function(p){p.classList.remove('on');});
+  document.querySelectorAll('.sb-item').forEach(function(i){i.classList.remove('on');});
+  var pg=document.getElementById('page-'+id);
+  if(pg) pg.classList.add('on');
+  if(el) el.classList.add('on');
+  document.getElementById('notifPanel').classList.remove('show');
+}
+
+// ── SCAN ENGINE ──
+var PATS=[
+  {keys:['registration fee','processing fee','pay to apply','payment required','starter kit','training fee'],label:'💰 Payment Red Flag',w:35},
+  {keys:['aadhar','aadhaar','pan card','bank account','send otp','passport copy'],label:'🪪 Personal Info Request',w:30},
+  {keys:['earn ₹','guaranteed income','unlimited earning','get rich','financial freedom','make money fast','lakh per month'],label:'📈 Unrealistic Claims',w:25},
+  {keys:['whatsapp only','telegram','gmail.com','yahoo.com','hotmail.com'],label:'📱 Suspicious Contact',w:20},
+  {keys:['urgent hiring','act now','limited slots','respond within 24','last chance','apply immediately'],label:'⏰ Urgency Pressure',w:15},
+  {keys:['no experience needed','no skills required','no degree needed','anyone can apply'],label:'⚠️ No Requirements',w:10},
+  {keys:['linkedin','official website','careers page','hr@','provident fund','health insurance'],label:'✅ Legitimacy Signals',w:-20},
+];
+
+async function runScan(){
+  var text=document.getElementById('scanInput').value.trim();
+  if(!text){showToast('Please paste a job description!','err');return;}
+  if(text.split(/\s+/).length<8){showToast('Text too short — paste the full description.','err');return;}
+  var btn=document.getElementById('scanBtn');
+  btn.textContent='⏳ Analyzing...';btn.disabled=true;
+  try{
+    var r=await fetch('/api/scan',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({text:text})});
+    var d=await r.json();
+    if(d.ok){showResult('resultBox',d);}
+    else{showToast(d.error,'err');}
+  }catch(e){showToast('Server error','err');}
+  btn.textContent='✨ Analyze Job';btn.disabled=false;
+  fetch('/api/stats').then(function(r){return r.json();}).then(function(d){
+    if(d.total!==undefined){document.getElementById('statScanned').textContent=d.total;document.getElementById('statFlagged').textContent=d.flagged;document.getElementById('statSafe').textContent=d.safe;}
+  }).catch(function(){});
+}
+
+async function runFullScan(){
+  var text=document.getElementById('fullScanInput').value.trim();
+  if(!text){showToast('Please paste a job description!','err');return;}
+  try{
+    var r=await fetch('/api/scan',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({text:text})});
+    var d=await r.json();
+    if(d.ok){showResult('fullResultBox',d);}
+    else{showToast(d.error,'err');}
+  }catch(e){showToast('Server error','err');}
+}
+
+function showResult(boxId,res){
+  var box=document.getElementById(boxId);
+  var icon=res.level==='high'?'🔴':res.level==='medium'?'🟡':'🟢';
+  var label=res.level==='high'?'High Risk':res.level==='medium'?'Medium Risk':'Low Risk';
+  var time=new Date().toLocaleTimeString([],{hour:'2-digit',minute:'2-digit'});
+  var barsHTML='';
+  if(!res.signals||res.signals.length===0){
+    barsHTML='<div style="font-size:13px;color:var(--green);font-weight:600;padding:4px 0">✅ No major scam signals detected. Looks legitimate!</div>';
+  }else{
+    res.signals.forEach(function(s){
+      var color=s.positive?'var(--green)':(s.pct>60?'var(--red)':s.pct>30?'var(--amber)':'var(--green)');
+      barsHTML+='<div class="brow"><div class="blbl">'+s.label+'</div><div class="btrack"><div class="bfill" style="width:0%;background:'+color+'" data-w="'+s.pct+'"></div></div><div class="bpct">'+s.pct+'%</div></div>';
+    });
+  }
+  var tipsHTML='';
+  if(res.tips&&res.tips.length>0){
+    tipsHTML='<div class="tips-box"><div class="tips-title">⚠️ Safety Recommendations</div><ul class="tips-list">'+res.tips.map(function(t){return '<li>'+t+'</li>';}).join('')+'</ul></div>';
+  }
+  box.innerHTML='<div class="verdict-row"><span class="vpill '+res.level+'">'+icon+' '+label+'</span><span class="vscore">Risk Score: <strong>'+res.score+'/100</strong></span><span class="vtime">Scanned at '+time+'</span></div><div class="bars">'+barsHTML+'</div>'+tipsHTML;
+  box.classList.add('show');
+  setTimeout(function(){box.querySelectorAll('.bfill').forEach(function(f){f.style.width=f.getAttribute('data-w')+'%';});},80);
+  var msg=res.level==='high'?'⚠️ High risk scam detected!':res.level==='medium'?'⚡ Suspicious signals found':'✅ Job looks legitimate!';
+  showToast(msg,res.level==='high'?'err':res.level==='medium'?'':'ok');
+}
+
+function updateCC(el){ document.getElementById('charCt').textContent=el.value.length+' / 5000'; }
+function switchScanTab(tab,el){ document.querySelectorAll('.stab').forEach(function(t){t.classList.remove('on');}); el.classList.add('on'); document.getElementById('scanText').style.display=tab==='text'?'block':'none'; document.getElementById('scanUrl').style.display=tab==='url'?'block':'none'; }
+
+// ── CREATE JOB ──
+function openCreate(){ document.getElementById('createModal').classList.add('show'); }
+async function createJob(){
+  var title=document.getElementById('cjTitle').value.trim();
+  var company=document.getElementById('cjCompany').value.trim();
+  var desc=document.getElementById('cjDesc').value.trim();
+  var errEl=document.getElementById('cjErr');
+  errEl.style.display='none';
+  if(!title){errEl.textContent='Please enter a job title.';errEl.style.display='block';return;}
+  if(!company){errEl.textContent='Please enter a company name.';errEl.style.display='block';return;}
+  var level='low';var score=0;
+  if(desc){
+    try{var r=await fetch('/api/scan',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({text:desc})});var d=await r.json();if(d.ok){level=d.level;score=d.score;}}catch(e){}
+  }
+  var newJob={title:title,company:company,apps:0,score:score,level:level,status:level==='high'?'flagged':level==='medium'?'review':'safe'};
+  JOBS.unshift(newJob);
+  renderTbl('dashTbl',JOBS.slice(0,5));
+  renderTbl('allTbl',JOBS);
+  closeModal('createModal');
+  document.getElementById('cjTitle').value='';document.getElementById('cjCompany').value='';document.getElementById('cjDesc').value='';
+  showToast('Job created! Risk: '+level,level==='high'?'err':'ok');
+}
+
+// ── SETTINGS ──
+function switchSP(el,panelId){
+  document.querySelectorAll('.sn-item').forEach(function(i){i.classList.remove('on');});
+  el.classList.add('on');
+  ['sp-profile','sp-notif','sp-security','sp-billing','sp-api'].forEach(function(id){
+    var p=document.getElementById(id);
+    if(p) p.style.display=id===panelId?'block':'none';
+  });
+}
+
+async function saveSettings(){
+  var first=document.getElementById('spFirst')?document.getElementById('spFirst').value.trim():'';
+  var last =document.getElementById('spLast') ?document.getElementById('spLast').value.trim() :'';
+  var role =document.getElementById('spRole') ?document.getElementById('spRole').value:'';
+  var name=first+(last?' '+last:'');
+  if(!name){showToast('Please enter your name','err');return;}
+  try{
+    var r=await fetch('/api/update-profile',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({name:name,role:role})});
+    var d=await r.json();
+    if(d.ok){
+      document.getElementById('sbName').textContent=name;
+      document.getElementById('sbRole').textContent=role;
+      document.getElementById('sbAv').textContent=name.charAt(0).toUpperCase();
+      document.getElementById('topName').textContent=name;
+      document.getElementById('topRole').textContent=role;
+      document.getElementById('topAv').textContent=name.charAt(0).toUpperCase();
+      document.getElementById('wName').textContent=name.split(' ')[0];
+      showToast('Profile saved!','ok');
+    }
+  }catch(e){showToast('Error saving profile','err');}
+}
+
+async function changePassword(){
+  var cur=document.getElementById('curPass').value;
+  var nw=document.getElementById('newPass').value;
+  var cf=document.getElementById('confPass').value;
+  var errEl=document.getElementById('passErr');
+  errEl.style.display='none';
+  if(!cur){errEl.textContent='Enter your current password.';errEl.style.display='block';return;}
+  if(nw.length<6){errEl.textContent='New password must be at least 6 characters.';errEl.style.display='block';return;}
+  if(nw!==cf){errEl.textContent='Passwords do not match.';errEl.style.display='block';return;}
+  try{
+    var r=await fetch('/api/change-password',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({current:cur,new:nw})});
+    var d=await r.json();
+    if(d.ok){showToast('Password changed!','ok');document.getElementById('curPass').value='';document.getElementById('newPass').value='';document.getElementById('confPass').value='';}
+    else{errEl.textContent=d.error;errEl.style.display='block';}
+  }catch(e){showToast('Error changing password','err');}
+}
+
+// ── MODALS ──
+function closeModal(id){ document.getElementById(id).classList.remove('show'); }
+function openPro(){ document.getElementById('proModal').classList.add('show'); }
+
+// ── NOTIFICATIONS ──
+function toggleNotif(){ document.getElementById('notifPanel').classList.toggle('show'); }
+function markRead(){ document.getElementById('nBadge').style.display='none'; showToast('All marked as read','ok'); document.getElementById('notifPanel').classList.remove('show'); }
+
+// ── THEME ──
+var dark=false;
+function toggleTheme(){
+  dark=!dark;
+  document.body.classList.toggle('dark',dark);
+  document.getElementById('themeBtn').textContent=dark?'☀️':'🌙';
+}
+
+// ── LOGOUT ──
+function doLogout(){ window.location.href='/api/logout'; }
+
+// ── TOAST ──
+function showToast(msg,type){
+  var e=document.getElementById('toastEl');
+  e.textContent=msg;e.className='toast'+(type?' '+type:'');
+  void e.offsetWidth;e.classList.add('show');
+  setTimeout(function(){e.classList.remove('show');},3000);
+}
+
+// Outside click closes panels
+document.addEventListener('click',function(e){
+  var np=document.getElementById('notifPanel');
+  if(np.classList.contains('show')&&!np.contains(e.target)&&!e.target.closest('.ico-btn')){np.classList.remove('show');}
+  document.querySelectorAll('.modal-bg').forEach(function(m){if(e.target===m)m.classList.remove('show');});
+});
+</script>
+</body>
+</html>
