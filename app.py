@@ -10,9 +10,7 @@ app.secret_key = "scamshield-secret-key-2025-india"  # Change this in production
 
 DB = "users.db"
 
-# ─────────────────────────────────────────
-# DATABASE SETUP
-# ─────────────────────────────────────────
+
 def init_db():
     conn = sqlite3.connect(DB)
     c = conn.cursor()
@@ -85,9 +83,7 @@ def get_user_stats(user_id):
     conn.close()
     return {"total": total, "flagged": flagged, "safe": total - flagged}
 
-# ─────────────────────────────────────────
-# SCAM DETECTION ENGINE
-# ─────────────────────────────────────────
+
 SCAM_PATTERNS = [
     {
         "keys": ["registration fee", "processing fee", "pay to apply",
@@ -179,9 +175,7 @@ def analyze_job(text):
         "tips":    list(dict.fromkeys(tips))[:3]
     }
 
-# ─────────────────────────────────────────
-# ROUTES
-# ─────────────────────────────────────────
+
 
 @app.route("/")
 def index():
@@ -205,7 +199,7 @@ def dashboard():
         user_role  = session.get("user_role")
     )
 
-# ── AUTH API ──
+
 
 @app.route("/api/register", methods=["POST"])
 def api_register():
@@ -263,7 +257,7 @@ def api_logout():
     session.clear()
     return redirect(url_for("login"))
 
-# ── SCAN API ──
+
 
 @app.route("/api/scan", methods=["POST"])
 def api_scan():
@@ -325,7 +319,11 @@ def api_change_password():
     conn.close()
     return jsonify({"ok": True})
 
-# ─────────────────────────────────────────
+@app.route('/google3033f3f735ead4eb.html')
+def google_verify():
+    return 'google-site-verification: google3033f3f735ead4eb.html'
+
+
 if __name__ == "__main__":
     init_db()
     print("\n" + "="*50)
