@@ -23,7 +23,7 @@
 body{font-family:var(--fn);background:var(--bg);color:var(--text);font-size:14px;}
 .layout{display:flex;min-height:100vh;}
 
-/* SIDEBAR */
+
 .sidebar{
   width:var(--sw);background:var(--w);border-right:1px solid var(--bd);
   display:flex;flex-direction:column;
@@ -89,10 +89,10 @@ body{font-family:var(--fn);background:var(--bg);color:var(--text);font-size:14px
 }
 .logout-btn:hover{background:var(--redbg);color:var(--red);}
 
-/* MAIN */
+
 .main{margin-left:var(--sw);flex:1;display:flex;flex-direction:column;}
 
-/* TOPBAR */
+
 .topbar{
   background:var(--w);border-bottom:1px solid var(--bd);
   height:60px;padding:0 26px;
@@ -133,12 +133,12 @@ body{font-family:var(--fn);background:var(--bg);color:var(--text);font-size:14px
 .top-user:hover{background:var(--pbg);border-color:rgba(99,69,255,0.25);}
 .top-av{width:30px;height:30px;border-radius:50%;background:var(--p);color:#fff;display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:800;}
 
-/* PAGES */
+
 .content{padding:26px;flex:1;}
 .page{display:none;}
 .page.on{display:block;}
 
-/* WELCOME BAR */
+
 .wbar{display:flex;align-items:center;justify-content:space-between;margin-bottom:22px;flex-wrap:wrap;gap:12px;}
 .wbar h2{font-size:22px;font-weight:800;color:var(--text);}
 .wbar p{font-size:13px;color:var(--t2);margin-top:2px;}
@@ -154,7 +154,7 @@ body{font-family:var(--fn);background:var(--bg);color:var(--text);font-size:14px
 .btn-p:hover{background:#7c5cff;transform:translateY(-1px);}
 .btn-p:disabled{opacity:0.6;transform:none;cursor:not-allowed;}
 
-/* STAT CARDS */
+
 .stats{display:grid;grid-template-columns:repeat(4,1fr);gap:16px;margin-bottom:22px;}
 .scard{
   background:var(--w);border:1px solid var(--bd);
@@ -175,10 +175,10 @@ body{font-family:var(--fn);background:var(--bg);color:var(--text);font-size:14px
 .spark{margin-top:12px;height:34px;}
 .spark svg{width:100%;height:34px;overflow:visible;}
 
-/* TWO COL */
+
 .two-col{display:grid;grid-template-columns:1fr 300px;gap:18px;margin-bottom:22px;}
 
-/* CARD */
+
 .card{background:var(--w);border:1px solid var(--bd);border-radius:var(--r);box-shadow:var(--sh);}
 .card-head{padding:16px 20px 0;display:flex;align-items:center;justify-content:space-between;}
 .card-title{font-size:15px;font-weight:800;color:var(--text);display:flex;align-items:center;gap:8px;}
@@ -205,7 +205,7 @@ body{font-family:var(--fn);background:var(--bg);color:var(--text);font-size:14px
 .chips{display:flex;gap:7px;flex-wrap:wrap;}
 .chip{display:flex;align-items:center;gap:5px;padding:4px 10px;border-radius:20px;border:1px solid var(--bd);background:var(--bg);font-size:11px;font-weight:600;color:var(--t2);}
 
-/* RESULT */
+
 .result-box{margin-top:16px;padding:16px;background:var(--bg);border:1.5px solid var(--bd);border-radius:12px;display:none;}
 .result-box.show{display:block;animation:up 0.3s ease;}
 @keyframes up{from{opacity:0;transform:translateY(8px);}to{opacity:1;transform:translateY(0);}}
@@ -228,7 +228,7 @@ body{font-family:var(--fn);background:var(--bg);color:var(--text);font-size:14px
 .tips-list li{font-size:12px;color:var(--t2);display:flex;gap:8px;line-height:1.5;}
 .tips-list li::before{content:'→';color:var(--amber);flex-shrink:0;}
 
-/* RISK CARD */
+
 .rcard-body{padding:18px 20px;}
 .donut-w{position:relative;width:140px;height:140px;margin:0 auto 16px;}
 .donut-w svg{width:140px;height:140px;}
@@ -265,7 +265,7 @@ body{font-family:var(--fn);background:var(--bg);color:var(--text);font-size:14px
 }
 .up-btn:hover{opacity:0.9;transform:translateY(-1px);}
 
-/* TABLE */
+
 .tcard{background:var(--w);border:1px solid var(--bd);border-radius:var(--r);box-shadow:var(--sh);}
 .thead2{padding:16px 20px;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid var(--bd);}
 .ttitle{font-size:15px;font-weight:800;color:var(--text);}
@@ -305,7 +305,7 @@ tbody tr:hover td{background:var(--bg);transition:background 0.15s;}
 .actbtn:hover{background:var(--pbg);border-color:rgba(99,69,255,0.3);}
 .actbtn.del:hover{background:var(--redbg);border-color:rgba(239,68,68,0.3);}
 
-/* ANALYTICS */
+
 .an-stats{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-bottom:22px;}
 .acard{background:var(--w);border:1px solid var(--bd);border-radius:var(--r);padding:18px 20px;box-shadow:var(--sh);}
 .albl{font-size:11px;font-weight:700;color:var(--t3);letter-spacing:0.07em;text-transform:uppercase;margin-bottom:3px;}
@@ -324,7 +324,7 @@ tbody tr:hover td{background:var(--bg);transition:background 0.15s;}
 .bc-li{display:flex;align-items:center;gap:6px;font-size:12px;color:var(--t2);}
 .bc-ld{width:12px;height:12px;border-radius:3px;}
 
-/* SETTINGS */
+
 .set-wrap{display:grid;grid-template-columns:210px 1fr;gap:18px;}
 .set-nav{background:var(--w);border:1px solid var(--bd);border-radius:var(--r);padding:8px;box-shadow:var(--sh);height:fit-content;}
 .sn-item{padding:10px 12px;border-radius:8px;font-size:13px;font-weight:600;color:var(--t2);cursor:pointer;transition:all 0.15s;display:flex;align-items:center;gap:9px;}
@@ -349,7 +349,7 @@ tbody tr:hover td{background:var(--bg);transition:background 0.15s;}
 .tgl input:checked+.tgl-sl{background:var(--p);}
 .tgl input:checked+.tgl-sl::after{transform:translateX(20px);}
 
-/* SAVED JOBS */
+
 .saved-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:14px;}
 .sv-card{background:var(--w);border:1px solid var(--bd);border-radius:var(--r);padding:18px;box-shadow:var(--sh);transition:transform 0.2s;}
 .sv-card:hover{transform:translateY(-2px);}
@@ -358,7 +358,7 @@ tbody tr:hover td{background:var(--bg);transition:background 0.15s;}
 .sv-foot{display:flex;align-items:center;justify-content:space-between;margin-top:12px;}
 .sv-date{font-size:11px;color:var(--t3);}
 
-/* NOTIF PANEL */
+
 .np{
   position:fixed;top:64px;right:18px;width:308px;
   background:var(--w);border:1px solid var(--bd);
@@ -380,7 +380,7 @@ tbody tr:hover td{background:var(--bg);transition:background 0.15s;}
 .np-id{font-size:11px;color:var(--t2);margin-top:2px;}
 .np-tm{font-size:10px;color:var(--t3);margin-top:3px;}
 
-/* MODAL */
+
 .modal-bg{
   position:fixed;inset:0;background:rgba(0,0,0,0.42);
   backdrop-filter:blur(4px);z-index:1000;
@@ -410,7 +410,7 @@ tbody tr:hover td{background:var(--bg);transition:background 0.15s;}
 .btn-p2:hover{background:#7c5cff;}
 .btn-p2:disabled{opacity:0.6;cursor:not-allowed;}
 
-/* PRO MODAL */
+
 .pro-price{text-align:center;margin:8px 0 18px;}
 .pro-amt{font-size:44px;font-weight:800;color:var(--p);}
 .pro-per{font-size:14px;color:var(--t2);}
@@ -420,7 +420,7 @@ tbody tr:hover td{background:var(--bg);transition:background 0.15s;}
 .pf-title{font-size:13px;font-weight:700;color:var(--text);}
 .pf-desc{font-size:11px;color:var(--t2);}
 
-/* TOAST */
+
 .toast{
   position:fixed;bottom:24px;left:50%;
   transform:translateX(-50%) translateY(14px);
@@ -434,7 +434,7 @@ tbody tr:hover td{background:var(--bg);transition:background 0.15s;}
 .toast.ok{background:var(--green);}
 .toast.err{background:var(--red);}
 
-/* DARK MODE */
+
 body.dark{
   --bg:#0F0F18;--w:#16161E;--bd:#2A2A38;
   --text:#F0F0F8;--t2:#8888A0;--t3:#55556A;--pbg:#1E1830;
@@ -457,7 +457,7 @@ body.dark{
 
 <div class="layout">
 
-<!-- ══ SIDEBAR ══ -->
+
 <aside class="sidebar">
   <div class="sb-logo">
     <div class="sb-logo-icon">🛡️</div>
@@ -494,10 +494,10 @@ body.dark{
   </div>
 </aside>
 
-<!-- ══ MAIN ══ -->
+
 <main class="main">
 
-  <!-- TOPBAR -->
+  
   <div class="topbar">
     <div class="search-wrap">
       <span style="font-size:16px;color:var(--t3)">🔍</span>
@@ -517,7 +517,7 @@ body.dark{
     </div>
   </div>
 
-  <!-- NOTIFICATIONS -->
+  
   <div class="np" id="notifPanel">
     <div class="np-head">
       <div class="np-title">Notifications</div>
@@ -531,7 +531,7 @@ body.dark{
 
   <div class="content">
 
-    <!-- ══ DASHBOARD ══ -->
+    
     <div class="page on" id="page-dashboard">
       <div class="wbar">
         <div><h2>Welcome back, <span id="wName">{{ user_name.split(' ')[0] }}</span>! 👋</h2><p>Let's build a safe hiring environment.</p></div>
@@ -546,7 +546,7 @@ body.dark{
       </div>
 
       <div class="two-col">
-        <!-- SCAN CARD -->
+        
         <div class="card">
           <div class="card-head"><div class="card-title">🔍 Scan a Job Posting</div></div>
           <div class="stabs">
@@ -574,7 +574,7 @@ body.dark{
           </div>
         </div>
 
-        <!-- RISK CARD -->
+        
         <div class="card">
           <div class="card-head"><div class="card-title">AI Scam Risk Overview</div></div>
           <div class="rcard-body">
@@ -608,7 +608,7 @@ body.dark{
         </div>
       </div>
 
-      <!-- TABLE -->
+      
       <div class="tcard">
         <div class="thead2"><div class="ttitle">Recent Job Postings</div><button class="btn-out" onclick="goPage('postings',document.getElementById('nav-postings'))">View All</button></div>
         <table><thead><tr><th>Job Title</th><th>Company</th><th>Applicants</th><th>AI Risk Score</th><th>Status</th><th>Actions</th></tr></thead>
@@ -616,7 +616,7 @@ body.dark{
       </div>
     </div>
 
-    <!-- ══ JOB POSTINGS ══ -->
+    
     <div class="page" id="page-postings">
       <div class="wbar"><div><h2>Job Postings 💼</h2><p>Manage and monitor all your listings.</p></div><button class="btn-p" onclick="openCreate()">+ Create Job Post</button></div>
       <div class="tcard">
@@ -634,7 +634,7 @@ body.dark{
       </div>
     </div>
 
-    <!-- ══ SCAN JOBS ══ -->
+    
     <div class="page" id="page-scan">
       <div class="wbar"><div><h2>Scan Jobs 🔍</h2><p>Paste any job description for instant AI analysis.</p></div></div>
       <div class="card">
@@ -649,7 +649,7 @@ body.dark{
       </div>
     </div>
 
-    <!-- ══ SCAM REPORTS ══ -->
+   
     <div class="page" id="page-reports">
       <div class="wbar"><div><h2>Scam Reports 📋</h2><p>44 potential scams detected and flagged.</p></div><button class="btn-p" onclick="showToast('Generating PDF report...','ok')">⬇ Export Report</button></div>
       <div class="tcard">
@@ -665,7 +665,7 @@ body.dark{
       </div>
     </div>
 
-    <!-- ══ ANALYTICS ══ -->
+    
     <div class="page" id="page-analytics">
       <div class="wbar"><div><h2>Analytics 📊</h2><p>Deep insights into your job posting safety.</p></div><button class="btn-p" onclick="showToast('Exporting analytics...','ok')">⬇ Export</button></div>
       <div class="an-stats">
@@ -690,7 +690,7 @@ body.dark{
       </div>
     </div>
 
-    <!-- ══ SAVED JOBS ══ -->
+    
     <div class="page" id="page-saved">
       <div class="wbar"><div><h2>Saved Jobs 🔖</h2><p>Jobs bookmarked for later review.</p></div></div>
       <div class="saved-grid">
@@ -700,7 +700,7 @@ body.dark{
       </div>
     </div>
 
-    <!-- ══ SETTINGS ══ -->
+    
     <div class="page" id="page-settings">
       <div class="wbar"><div><h2>Settings ⚙️</h2><p>Manage your account and preferences.</p></div><button class="btn-p" onclick="saveSettings()">Save Changes</button></div>
       <div class="set-wrap">
@@ -766,11 +766,11 @@ body.dark{
       </div>
     </div>
 
-  </div><!-- /content -->
+  </div>
 </main>
-</div><!-- /layout -->
+</div>
 
-<!-- CREATE JOB MODAL -->
+
 <div class="modal-bg" id="createModal">
   <div class="modal">
     <div class="modal-hd"><div class="modal-title">➕ Create Job Post</div><button class="modal-x" onclick="closeModal('createModal')">✕</button></div>
@@ -786,7 +786,7 @@ body.dark{
   </div>
 </div>
 
-<!-- PRO MODAL -->
+
 <div class="modal-bg" id="proModal">
   <div class="modal">
     <div class="modal-hd"><div class="modal-title">⭐ Upgrade to Pro</div><button class="modal-x" onclick="closeModal('proModal')">✕</button></div>
@@ -809,7 +809,7 @@ body.dark{
 <div class="toast" id="toastEl"></div>
 
 <script>
-// ── JOB DATA ──
+
 var JOBS = [
   {title:'Data Entry Operator',  company:'QuickWork Solutions',apps:32,score:87,level:'high',  status:'flagged'},
   {title:'Software Developer',   company:'TechCorp India',     apps:85,score:12,level:'low',   status:'safe'},
@@ -818,7 +818,7 @@ var JOBS = [
   {title:'Online Survey Taker',  company:'InstantCash Ltd.',   apps:19,score:91,level:'high',  status:'flagged'},
 ];
 
-// ── LOAD USER STATS ──
+
 fetch('/api/stats').then(function(r){return r.json();}).then(function(d){
   if(d.total !== undefined){
     document.getElementById('statScanned').textContent  = d.total;
@@ -832,7 +832,7 @@ fetch('/api/stats').then(function(r){return r.json();}).then(function(d){
   }
 }).catch(function(){});
 
-// ── TABLE ──
+
 function makeRow(j){
   var icon=j.level==='high'?'🔴':j.level==='medium'?'🟡':'🟢';
   var cap=j.level.charAt(0).toUpperCase()+j.level.slice(1);
@@ -856,7 +856,7 @@ renderTbl('allTbl',JOBS);
 function filterTable(s){ var d=s==='all'?JOBS:JOBS.filter(function(j){return j.status===s;}); renderTbl('allTbl',d); }
 function liveSearch(q){ if(!q.trim()){renderTbl('dashTbl',JOBS);return;} var f=JOBS.filter(function(j){return j.title.toLowerCase().indexOf(q.toLowerCase())>-1||j.company.toLowerCase().indexOf(q.toLowerCase())>-1;}); renderTbl('dashTbl',f); }
 
-// ── NAVIGATION ──
+
 function goPage(id,el){
   document.querySelectorAll('.page').forEach(function(p){p.classList.remove('on');});
   document.querySelectorAll('.sb-item').forEach(function(i){i.classList.remove('on');});
@@ -866,7 +866,7 @@ function goPage(id,el){
   document.getElementById('notifPanel').classList.remove('show');
 }
 
-// ── SCAN ENGINE ──
+
 var PATS=[
   {keys:['registration fee','processing fee','pay to apply','payment required','starter kit','training fee'],label:'💰 Payment Red Flag',w:35},
   {keys:['aadhar','aadhaar','pan card','bank account','send otp','passport copy'],label:'🪪 Personal Info Request',w:30},
@@ -934,7 +934,7 @@ function showResult(boxId,res){
 function updateCC(el){ document.getElementById('charCt').textContent=el.value.length+' / 5000'; }
 function switchScanTab(tab,el){ document.querySelectorAll('.stab').forEach(function(t){t.classList.remove('on');}); el.classList.add('on'); document.getElementById('scanText').style.display=tab==='text'?'block':'none'; document.getElementById('scanUrl').style.display=tab==='url'?'block':'none'; }
 
-// ── CREATE JOB ──
+
 function openCreate(){ document.getElementById('createModal').classList.add('show'); }
 async function createJob(){
   var title=document.getElementById('cjTitle').value.trim();
@@ -957,7 +957,7 @@ async function createJob(){
   showToast('Job created! Risk: '+level,level==='high'?'err':'ok');
 }
 
-// ── SETTINGS ──
+
 function switchSP(el,panelId){
   document.querySelectorAll('.sn-item').forEach(function(i){i.classList.remove('on');});
   el.classList.add('on');
@@ -1006,15 +1006,15 @@ async function changePassword(){
   }catch(e){showToast('Error changing password','err');}
 }
 
-// ── MODALS ──
+
 function closeModal(id){ document.getElementById(id).classList.remove('show'); }
 function openPro(){ document.getElementById('proModal').classList.add('show'); }
 
-// ── NOTIFICATIONS ──
+
 function toggleNotif(){ document.getElementById('notifPanel').classList.toggle('show'); }
 function markRead(){ document.getElementById('nBadge').style.display='none'; showToast('All marked as read','ok'); document.getElementById('notifPanel').classList.remove('show'); }
 
-// ── THEME ──
+
 var dark=false;
 function toggleTheme(){
   dark=!dark;
@@ -1022,10 +1022,10 @@ function toggleTheme(){
   document.getElementById('themeBtn').textContent=dark?'☀️':'🌙';
 }
 
-// ── LOGOUT ──
+
 function doLogout(){ window.location.href='/api/logout'; }
 
-// ── TOAST ──
+
 function showToast(msg,type){
   var e=document.getElementById('toastEl');
   e.textContent=msg;e.className='toast'+(type?' '+type:'');
@@ -1033,7 +1033,7 @@ function showToast(msg,type){
   setTimeout(function(){e.classList.remove('show');},3000);
 }
 
-// Outside click closes panels
+
 document.addEventListener('click',function(e){
   var np=document.getElementById('notifPanel');
   if(np.classList.contains('show')&&!np.contains(e.target)&&!e.target.closest('.ico-btn')){np.classList.remove('show');}
