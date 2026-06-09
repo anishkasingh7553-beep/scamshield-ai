@@ -531,7 +531,7 @@ body.dark{
 
   <div class="content">
 
-    <!-- ══ DASHBOARD ══ -->
+    
     <div class="page on" id="page-dashboard">
       <div class="wbar">
         <div><h2>Welcome back, <span id="wName">{{ user_name.split(' ')[0] }}</span>! 👋</h2><p>Let's build a safe hiring environment.</p></div>
@@ -546,7 +546,7 @@ body.dark{
       </div>
 
       <div class="two-col">
-        <!-- SCAN CARD -->
+        
         <div class="card">
           <div class="card-head"><div class="card-title">🔍 Scan a Job Posting</div></div>
           <div class="stabs">
@@ -571,10 +571,10 @@ body.dark{
               <button class="btn-p" id="scanBtn" onclick="runScan()">✨ Analyze Job</button>
             </div>
             <div class="result-box" id="resultBox"></div>
-            <!-- AMAZON AFFILIATE LINKS — SCAN RESULT KE BAAD -->
+            
 <div style="margin-top:16px;display:flex;flex-direction:column;gap:10px;">
 
-  <!-- LAPTOP LINK -->
+  
   <a href="https://www.amazon.in/s?k=best+laptops&i=todays-deals&crid=2SIDCKD8Q8YN5&sprefix=best+laptops%2Ctodays-deals%2C338&linkCode=ll2&tag=scamshieldai2-21&linkId=e643ef14346e98ae2ccca0c0c8ee0575&ref_=as_li_ss_tl"
      target="_blank" style="text-decoration:none;">
     <div style="
@@ -603,7 +603,7 @@ body.dark{
     </div>
   </a>
 
-  <!-- BOOKS LINK -->
+  
   <a href="https://www.amazon.in/s?k=books&i=todays-deals&crid=1W3NIDP2JR7AL&sprefix=books%2Ctodays-deals%2C596&linkCode=ll2&tag=scamshieldai2-21&linkId=48f373af2338b076386b1fa1bd6aa7a4&ref_=as_li_ss_tl"
      target="_blank" style="text-decoration:none;">
     <div style="
@@ -632,7 +632,7 @@ body.dark{
     </div>
   </a>
 
-  <!-- SUNSCREEN LINK -->
+  
   <a href="https://www.amazon.in/s?k=sunscreen+spf50&i=todays-deals&crid=4N5XNEUQUU0K&sprefix=sunsc%2Ctodays-deals%2C531&linkCode=ll2&tag=scamshieldai2-21&linkId=c2f7b6060e7631ac28e83f32bf817c72&ref_=as_li_ss_tl"
      target="_blank" style="text-decoration:none;">
     <div style="
@@ -662,13 +662,13 @@ body.dark{
   </a>
 
 </div>
-<!-- AMAZON LINKS END -->
+
             
                  
           </div>
         </div>
 
-        <!-- RISK CARD -->
+        
         <div class="card">
           <div class="card-head"><div class="card-title">AI Scam Risk Overview</div></div>
           <div class="rcard-body">
@@ -702,7 +702,7 @@ body.dark{
         </div>
       </div>
 
-      <!-- TABLE -->
+      
       <div class="tcard">
         <div class="thead2"><div class="ttitle">Recent Job Postings</div><button class="btn-out" onclick="goPage('postings',document.getElementById('nav-postings'))">View All</button></div>
         <table><thead><tr><th>Job Title</th><th>Company</th><th>Applicants</th><th>AI Risk Score</th><th>Status</th><th>Actions</th></tr></thead>
@@ -710,7 +710,7 @@ body.dark{
       </div>
     </div>
 
-    <!-- ══ JOB POSTINGS ══ -->
+    
     <div class="page" id="page-postings">
       <div class="wbar"><div><h2>Job Postings 💼</h2><p>Manage and monitor all your listings.</p></div><button class="btn-p" onclick="openCreate()">+ Create Job Post</button></div>
       <div class="tcard">
@@ -728,7 +728,7 @@ body.dark{
       </div>
     </div>
 
-    <!-- ══ SCAN JOBS ══ -->
+    
     <div class="page" id="page-scan">
       <div class="wbar"><div><h2>Scan Jobs 🔍</h2><p>Paste any job description for instant AI analysis.</p></div></div>
       <div class="card">
@@ -743,7 +743,7 @@ body.dark{
       </div>
     </div>
 
-    <!-- ══ SCAM REPORTS ══ -->
+    
     <div class="page" id="page-reports">
       <div class="wbar"><div><h2>Scam Reports 📋</h2><p>44 potential scams detected and flagged.</p></div><button class="btn-p" onclick="showToast('Generating PDF report...','ok')">⬇ Export Report</button></div>
       <div class="tcard">
@@ -759,7 +759,7 @@ body.dark{
       </div>
     </div>
 
-    <!-- ══ ANALYTICS ══ -->
+    
     <div class="page" id="page-analytics">
       <div class="wbar"><div><h2>Analytics 📊</h2><p>Deep insights into your job posting safety.</p></div><button class="btn-p" onclick="showToast('Exporting analytics...','ok')">⬇ Export</button></div>
       <div class="an-stats">
@@ -784,7 +784,7 @@ body.dark{
       </div>
     </div>
 
-    <!-- ══ SAVED JOBS ══ -->
+    
     <div class="page" id="page-saved">
       <div class="wbar"><div><h2>Saved Jobs 🔖</h2><p>Jobs bookmarked for later review.</p></div></div>
       <div class="saved-grid">
@@ -794,7 +794,7 @@ body.dark{
       </div>
     </div>
 
-    <!-- ══ SETTINGS ══ -->
+    
     <div class="page" id="page-settings">
       <div class="wbar"><div><h2>Settings ⚙️</h2><p>Manage your account and preferences.</p></div><button class="btn-p" onclick="saveSettings()">Save Changes</button></div>
       <div class="set-wrap">
@@ -1116,10 +1116,10 @@ function toggleTheme(){
   document.getElementById('themeBtn').textContent=dark?'☀️':'🌙';
 }
 
-// ── LOGOUT ──
+
 function doLogout(){ window.location.href='/api/logout'; }
 
-// ── TOAST ──
+
 function showToast(msg,type){
   var e=document.getElementById('toastEl');
   e.textContent=msg;e.className='toast'+(type?' '+type:'');
@@ -1127,7 +1127,7 @@ function showToast(msg,type){
   setTimeout(function(){e.classList.remove('show');},3000);
 }
 
-// Outside click closes panels
+
 document.addEventListener('click',function(e){
   var np=document.getElementById('notifPanel');
   if(np.classList.contains('show')&&!np.contains(e.target)&&!e.target.closest('.ico-btn')){np.classList.remove('show');}

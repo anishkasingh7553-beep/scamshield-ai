@@ -221,7 +221,7 @@ def api_register():
     if not ok:
         return jsonify({"ok": False, "error": "This email is already registered. Please sign in."}), 400
 
-    # Auto login after register
+    
     user = get_user_by_email(email)
     session["user_id"]    = user[0]
     session["user_name"]  = user[1]
