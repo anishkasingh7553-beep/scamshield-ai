@@ -571,6 +571,44 @@ body.dark{
               <button class="btn-p" id="scanBtn" onclick="runScan()">✨ Analyze Job</button>
             </div>
             <div class="result-box" id="resultBox"></div>
+            
+<div id="amazonLinks" style="margin-top:14px;flex-direction:column;gap:10px;display:none;">
+
+  <a href="https://www.amazon.in/s?k=best+laptops&i=todays-deals&tag=scamshieldai2-21"
+     target="_blank" style="text-decoration:none;">
+    <div style="padding:13px 16px;background:#FFF7ED;border:1.5px solid #FED7AA;border-radius:12px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:8px;">
+      <div>
+        <div style="font-size:13px;font-weight:700;color:#C2410C">💻 Best Laptops — Today's Deals</div>
+        <div style="font-size:11px;color:#6B7280;margin-top:2px">Perfect for job applications & work from home</div>
+      </div>
+      <div style="background:#FF9900;color:white;padding:7px 14px;border-radius:8px;font-weight:700;font-size:12px;">Shop Now →</div>
+    </div>
+  </a>
+
+  <a href="https://www.amazon.in/s?k=books&i=todays-deals&tag=scamshieldai2-21"
+     target="_blank" style="text-decoration:none;">
+    <div style="padding:13px 16px;background:#EFF6FF;border:1.5px solid #BFDBFE;border-radius:12px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:8px;">
+      <div>
+        <div style="font-size:13px;font-weight:700;color:#1D4ED8">📚 Best Career & Resume Books</div>
+        <div style="font-size:11px;color:#6B7280;margin-top:2px">Boost your skills — Today's best deals</div>
+      </div>
+      <div style="background:#2563EB;color:white;padding:7px 14px;border-radius:8px;font-weight:700;font-size:12px;">Shop Now →</div>
+    </div>
+  </a>
+
+  <a href="https://www.amazon.in/s?k=sunscreen+spf50&i=todays-deals&tag=scamshieldai2-21"
+     target="_blank" style="text-decoration:none;">
+    <div style="padding:13px 16px;background:#ECFDF5;border:1.5px solid #A7F3D0;border-radius:12px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:8px;">
+      <div>
+        <div style="font-size:13px;font-weight:700;color:#065F46">☀️ Sunscreen SPF50 — Best Deals</div>
+        <div style="font-size:11px;color:#6B7280;margin-top:2px">Stay protected during field interviews</div>
+      </div>
+      <div style="background:#10B981;color:white;padding:7px 14px;border-radius:8px;font-weight:700;font-size:12px;">Shop Now →</div>
+    </div>
+  </a>
+
+</div>
+
           </div>
         </div>
 
@@ -926,6 +964,11 @@ function showResult(boxId,res){
   }
   box.innerHTML='<div class="verdict-row"><span class="vpill '+res.level+'">'+icon+' '+label+'</span><span class="vscore">Risk Score: <strong>'+res.score+'/100</strong></span><span class="vtime">Scanned at '+time+'</span></div><div class="bars">'+barsHTML+'</div>'+tipsHTML;
   box.classList.add('show');
+  
+var amazonDiv = document.getElementById('amazonLinks');
+if (amazonDiv) {
+  amazonDiv.style.display = 'flex';
+}
   setTimeout(function(){box.querySelectorAll('.bfill').forEach(function(f){f.style.width=f.getAttribute('data-w')+'%';});},80);
   var msg=res.level==='high'?'⚠️ High risk scam detected!':res.level==='medium'?'⚡ Suspicious signals found':'✅ Job looks legitimate!';
   showToast(msg,res.level==='high'?'err':res.level==='medium'?'':'ok');
