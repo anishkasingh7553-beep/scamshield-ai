@@ -6,7 +6,7 @@ import re
 from datetime import datetime
 
 app = Flask(__name__)
-app.secret_key = "scamshield-secret-key-2025-india"  # Change this in production
+app.secret_key = "scamshield-secret-key-2025-india"  
 
 DB = "users.db"
 
@@ -59,7 +59,7 @@ def create_user(name, email, password, role):
         conn.commit()
         return True
     except sqlite3.IntegrityError:
-        return False  # Email already exists
+        return False  
     finally:
         conn.close()
 
@@ -209,7 +209,7 @@ def api_register():
     password = data.get("password", "").strip()
     role     = data.get("role", "Job Seeker").strip()
 
-    # Validation
+    
     if not name:
         return jsonify({"ok": False, "error": "Please enter your full name."}), 400
     if not email or "@" not in email or "." not in email:
